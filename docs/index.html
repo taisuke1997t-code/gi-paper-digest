@@ -16,7 +16,7 @@
     --ink-faint:#8a978f;
     --accent:#0e6b5c;
     --accent-soft:#dceae5;
-    --line:#d6ddd8;
+    --line:#cfd8d3;
     --serif: "Iowan Old Style","Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
     --sans: "Hiragino Sans","Yu Gothic","Noto Sans JP","Segoe UI",sans-serif;
     --mono: "Cascadia Code","SF Mono",ui-monospace,"Consolas",monospace;
@@ -24,24 +24,24 @@
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
       --paper:#0b1613;
-      --surface:#12211d;
+      --surface:#152a23;
       --ink:#e9efec;
       --ink-muted:#93a39c;
       --ink-faint:#5e6f68;
       --accent:#47c7a6;
       --accent-soft:#17332c;
-      --line:#23342e;
+      --line:#2c433a;
     }
   }
   :root[data-theme="dark"]{
     --paper:#0b1613;
-    --surface:#12211d;
+    --surface:#152a23;
     --ink:#e9efec;
     --ink-muted:#93a39c;
     --ink-faint:#5e6f68;
     --accent:#47c7a6;
     --accent-soft:#17332c;
-    --line:#23342e;
+    --line:#2c433a;
   }
 
   *{box-sizing:border-box;}
@@ -52,20 +52,54 @@
     color:var(--ink);
     font-family:var(--sans);
     -webkit-font-smoothing:antialiased;
-    padding-top:env(safe-area-inset-top);
     padding-bottom:env(safe-area-inset-bottom);
   }
+
+  /* ---- 上部固定バー（常にハンバーガーへアクセスできる） ---- */
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:40;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    padding-top:env(safe-area-inset-top);
+  }
+  .topbar-inner{
+    max-width:680px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0.65rem max(1.25rem, env(safe-area-inset-right)) 0.65rem max(1.25rem, env(safe-area-inset-left));
+  }
+  .topbar-title{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:1rem;
+    color:var(--ink);
+  }
+  .menu-btn{
+    all:unset;
+    cursor:pointer;
+    color:var(--ink);
+    font-size:1.25rem;
+    line-height:1;
+    padding:0.4rem 0.5rem;
+    border-radius:7px;
+  }
+  .menu-btn:hover, .menu-btn:focus-visible{ background:var(--accent-soft); }
+
   .page{
     max-width:680px;
     margin:0 auto;
-    padding:2.5rem max(1.25rem, env(safe-area-inset-right)) 5rem max(1.25rem, env(safe-area-inset-left));
+    padding:1.75rem max(1.25rem, env(safe-area-inset-right)) 5rem max(1.25rem, env(safe-area-inset-left));
   }
 
   /* ---- masthead ---- */
   .masthead{
     display:flex;
     flex-direction:column;
-    gap:0.5rem;
+    gap:0.6rem;
     padding-bottom:1.25rem;
     border-bottom:3px double var(--line);
     margin-bottom:0.5rem;
@@ -85,30 +119,20 @@
     text-wrap:balance;
     letter-spacing:0.01em;
   }
-  .masthead .sub{
-    display:flex;
-    flex-wrap:wrap;
-    gap:0.4rem 1rem;
+  .masthead-desc{
+    margin:0;
     font-size:0.85rem;
+    line-height:1.65;
     color:var(--ink-muted);
   }
-  .masthead .sub b{
-    color:var(--ink);
+  .masthead-desc b{ color:var(--ink); font-variant-numeric:tabular-nums; }
+  .masthead-desc .menu-hint{
+    display:inline-flex;
+    align-items:center;
+    gap:0.15rem;
+    color:var(--accent);
     font-weight:600;
-    font-variant-numeric:tabular-nums;
   }
-
-  .note{
-    font-size:0.85rem;
-    line-height:1.7;
-    color:var(--ink-muted);
-    background:var(--accent-soft);
-    border-left:3px solid var(--accent);
-    padding:0.85rem 1rem;
-    border-radius:2px;
-    margin:1.5rem 0 2rem;
-  }
-  .note strong{ color:var(--ink); }
 
   /* ---- ホーム画面追加バナー（iOS向け） ---- */
   .a2hs{
@@ -119,7 +143,7 @@
     color:var(--paper);
     border-radius:8px;
     padding:0.75rem 0.9rem;
-    margin:0 0 1.25rem;
+    margin:1.25rem 0 0;
     font-size:0.82rem;
     line-height:1.55;
   }
@@ -139,38 +163,42 @@
   }
   .a2hs-close:hover{ opacity:1; }
 
-  /* ---- section headers ---- */
+  /* ---- section header ---- */
   .section-label{
     font-family:var(--mono);
     font-size:0.72rem;
     letter-spacing:0.1em;
     text-transform:uppercase;
     color:var(--ink-faint);
-    margin:2.25rem 0 0.75rem;
-    display:flex;
-    align-items:baseline;
-    gap:0.6rem;
+    margin:2rem 0 0.9rem;
   }
-  .section-label:first-of-type{ margin-top:0; }
+  .section-label:first-of-type{ margin-top:1.5rem; }
   .section-label .count{ color:var(--accent); font-weight:600; }
 
-  /* ---- article list (shared by today + archive) ---- */
+  /* ---- article cards (今日のダイジェスト・アーカイブ共通) ---- */
   ul.articles{
     list-style:none;
     margin:0;
     padding:0;
-    border-top:1px solid var(--line);
   }
   .articles li{
-    border-bottom:1px solid var(--line);
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    margin:0 0 0.9rem;
+    overflow:hidden;
   }
+  .articles li:last-child{ margin-bottom:0; }
   .date-heading{
-    font-family:var(--serif);
-    font-style:italic;
-    font-size:0.82rem;
+    list-style:none;
+    font-family:var(--mono);
+    font-size:0.7rem;
+    letter-spacing:0.08em;
     color:var(--ink-faint);
-    margin:1.5rem 0 0;
-    padding:0.5rem 0.25rem 0;
+    margin:1.5rem 0 0.6rem;
+    padding:0;
+    background:none;
+    border:none;
   }
   .date-heading:first-child{ margin-top:0; }
 
@@ -179,12 +207,11 @@
     display:block;
     width:100%;
     cursor:pointer;
-    padding:1.15rem 0.25rem;
+    padding:1.15rem 1.15rem;
   }
   .art-toggle:focus-visible{
     outline:2px solid var(--accent);
-    outline-offset:2px;
-    border-radius:3px;
+    outline-offset:-2px;
   }
   .art-head{
     display:flex;
@@ -224,7 +251,7 @@
   .art-conclusion{
     margin:0.5rem 0 0 1.5rem;
     font-family:var(--serif);
-    font-size:1.32rem;
+    font-size:1.28rem;
     font-weight:700;
     line-height:1.48;
     color:var(--ink);
@@ -271,11 +298,10 @@
   .type-tag.recent{ background:var(--accent-soft); color:var(--accent); }
 
   .art-body{
-    margin:0 0.25rem 1.4rem 1.5rem;
-    padding:1rem 1.1rem 1.1rem;
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:6px;
+    margin:0;
+    padding:1rem 1.15rem 1.1rem;
+    background:var(--paper);
+    border-top:1px solid var(--line);
   }
   .art-body h4{
     font-family:var(--mono);
@@ -314,79 +340,6 @@
   }
   .art-original a:hover{ border-bottom-color:var(--accent); }
 
-  /* ---- archive controls (search + filter) ---- */
-  .archive-controls{
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:1rem 1.15rem 1.1rem;
-    margin:0.75rem 0 0;
-    background:var(--surface);
-  }
-  .search-row{
-    display:flex;
-    align-items:center;
-    gap:0.6rem;
-    border:1px solid var(--line);
-    border-radius:6px;
-    padding:0.5rem 0.75rem;
-    background:var(--paper);
-  }
-  .search-row .icon{ color:var(--ink-faint); flex:none; font-size:0.9rem; }
-  .search-row input{
-    all:unset;
-    flex:1;
-    font-family:var(--sans);
-    font-size:0.92rem;
-    color:var(--ink);
-    min-width:0;
-  }
-  .search-row input::placeholder{ color:var(--ink-faint); }
-  .filter-chips{
-    display:flex;
-    gap:0.5rem;
-    margin-top:0.75rem;
-    flex-wrap:wrap;
-  }
-  .filter-chip{
-    all:unset;
-    cursor:pointer;
-    font-family:var(--mono);
-    font-size:0.72rem;
-    letter-spacing:0.02em;
-    padding:0.3rem 0.7rem;
-    border-radius:99px;
-    border:1px solid var(--line);
-    color:var(--ink-muted);
-  }
-  .filter-chip[aria-pressed="true"]{
-    background:var(--ink);
-    color:var(--paper);
-    border-color:var(--ink);
-  }
-  .archive-summary{
-    font-size:0.78rem;
-    color:var(--ink-faint);
-    margin:0.75rem 0 0;
-  }
-
-  .load-more{
-    all:unset;
-    display:block;
-    box-sizing:border-box;
-    width:100%;
-    text-align:center;
-    cursor:pointer;
-    font-family:var(--mono);
-    font-size:0.78rem;
-    letter-spacing:0.05em;
-    color:var(--accent);
-    border:1px dashed var(--line);
-    border-radius:6px;
-    padding:0.9rem;
-    margin:1.25rem 0 0;
-  }
-  .load-more:hover{ border-color:var(--accent); }
-
   .empty-state{
     font-size:0.86rem;
     color:var(--ink-faint);
@@ -403,19 +356,172 @@
     line-height:1.8;
   }
 
+  /* ---- ハンバーガーメニューから開くアーカイブ・検索ドロワー ---- */
+  .drawer-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(10,16,14,0.4);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:45;
+  }
+  .drawer-backdrop.is-open{ opacity:1; pointer-events:auto; }
+
+  .drawer{
+    position:fixed;
+    top:0;
+    right:0;
+    height:100%;
+    width:min(430px, 100vw);
+    background:var(--paper);
+    border-left:1px solid var(--line);
+    transform:translateX(100%);
+    transition:transform 0.25s ease;
+    z-index:50;
+    display:flex;
+    flex-direction:column;
+    padding-top:env(safe-area-inset-top);
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .drawer.is-open{ transform:translateX(0); }
+
+  .drawer-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:1.1rem 1.25rem;
+    border-bottom:1px solid var(--line);
+    flex:none;
+  }
+  .drawer-title{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:1.05rem;
+  }
+  .drawer-close{
+    all:unset;
+    cursor:pointer;
+    font-size:1.1rem;
+    color:var(--ink-faint);
+    padding:0.3rem;
+  }
+  .drawer-close:hover{ color:var(--ink); }
+
+  .drawer-body{
+    flex:1;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:1.1rem 1.25rem 2.5rem;
+  }
+
+  .search-row{
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:0.6rem 0.8rem;
+    background:var(--surface);
+  }
+  .search-row .icon{ color:var(--ink-faint); flex:none; font-size:0.9rem; }
+  .search-row input{
+    all:unset;
+    flex:1;
+    font-family:var(--sans);
+    font-size:0.92rem;
+    color:var(--ink);
+    min-width:0;
+  }
+  .search-row input::placeholder{ color:var(--ink-faint); }
+
+  .filter-chips{
+    display:flex;
+    gap:0.5rem;
+    margin-top:0.75rem;
+    flex-wrap:wrap;
+  }
+  .drawer-subhead{
+    font-family:var(--mono);
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:1.4rem 0 0.6rem;
+  }
+  .date-chip-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.5rem;
+    max-height:8.5rem;
+    overflow-y:auto;
+    padding:0.15rem 0.15rem 0.35rem 0;
+  }
+  .filter-chip, .date-chip{
+    all:unset;
+    cursor:pointer;
+    font-family:var(--mono);
+    font-size:0.72rem;
+    letter-spacing:0.02em;
+    padding:0.32rem 0.7rem;
+    border-radius:99px;
+    border:1px solid var(--line);
+    color:var(--ink-muted);
+    white-space:nowrap;
+    background:var(--surface);
+  }
+  .filter-chip[aria-pressed="true"], .date-chip[aria-pressed="true"]{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+
+  .archive-summary{
+    font-size:0.78rem;
+    color:var(--ink-faint);
+    margin:1.25rem 0 0.85rem;
+  }
+
+  .load-more{
+    all:unset;
+    display:block;
+    box-sizing:border-box;
+    width:100%;
+    text-align:center;
+    cursor:pointer;
+    font-family:var(--mono);
+    font-size:0.78rem;
+    letter-spacing:0.05em;
+    color:var(--accent);
+    border:1px dashed var(--line);
+    border-radius:8px;
+    padding:0.9rem;
+    margin:0.5rem 0 0;
+  }
+  .load-more:hover{ border-color:var(--accent); }
+
   @media (prefers-reduced-motion: reduce){
-    .art-detail, .art-head .mark{ transition:none; }
+    .art-detail, .art-head .mark, .drawer, .drawer-backdrop{ transition:none; }
   }
 </style>
+
+<div class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">消化器内科ダイジェスト</span>
+    <button class="menu-btn" id="menuBtn" aria-label="アーカイブ・検索を開く" aria-expanded="false" aria-controls="drawer">
+      <span aria-hidden="true">☰</span>
+    </button>
+  </div>
+</div>
 
 <div class="page">
   <div class="masthead">
     <div class="eyebrow">Daily GI Research Brief</div>
     <h1>消化器内科ダイジェスト</h1>
-    <div class="sub">
-      <span>最新更新：<b id="latestDate">—</b></span>
-      <span>クラシックの名論文 × 最新の注目論文（IF・被引用数上位を優先）</span>
-    </div>
+    <p class="masthead-desc">
+      最新更新：<b id="latestDate">—</b>。結論を先頭に、原題は下に小さく添えています。
+      過去の論文は右上の <span class="menu-hint">☰ メニュー</span> から検索・日付で探せます。
+    </p>
   </div>
 
   <div class="a2hs" id="a2hs">
@@ -424,34 +530,38 @@
     <button class="a2hs-close" id="a2hsClose" aria-label="閉じる">✕</button>
   </div>
 
-  <p class="note">
-    新着論文だけでなく、<strong>過去に大きな影響を与えた名論文（2010年以降・被引用数上位）</strong>もインパクトファクターの高い誌から選び、直近の注目論文と組み合わせて表示しています。各カードは<strong>結論を先頭に大きく表示</strong>し、論文タイトルはカッコ書きで小さく添える形にしています。毎晩ローカルPCが自動でこの一覧を更新し、<strong>過去に掲載した論文もすべてアーカイブに残ります</strong>。下の検索欄からいつでも探せます。
-  </p>
-
   <p class="section-label">今日のダイジェスト <span class="count" id="todayCount"></span></p>
   <ul class="articles" id="todayArticles"></ul>
 
-  <p class="section-label" style="margin-top:3rem;">アーカイブ・検索</p>
-  <div class="archive-controls">
+  <footer>
+    出典：PubMed（NCBI E-utilities）・Europe PMC（クラシック論文の被引用数ソートに使用）。IF（インパクトファクター）は参考値であり年度により変動する。要約・翻訳・「結論」の見出しは生成AIによるもので、臨床判断には必ず原文をご確認ください。
+  </footer>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="drawer-title">アーカイブ・検索</span>
+    <button class="drawer-close" id="drawerClose" aria-label="閉じる">✕</button>
+  </div>
+  <div class="drawer-body">
     <div class="search-row">
       <span class="icon">🔍</span>
-      <input type="search" id="searchInput" placeholder="病名・薬剤名・誌名などで検索（例：肝硬変、大腸癌、NEJM）" autocomplete="off">
+      <input type="search" id="searchInput" placeholder="病名・薬剤名・誌名・日付など" autocomplete="off">
     </div>
     <div class="filter-chips" role="group" aria-label="論文タイプで絞り込み">
       <button class="filter-chip" data-filter="all" aria-pressed="true">すべて</button>
       <button class="filter-chip" data-filter="classic" aria-pressed="false">クラシック</button>
       <button class="filter-chip" data-filter="recent" aria-pressed="false">最新</button>
     </div>
+    <p class="drawer-subhead">日付から探す</p>
+    <div class="date-chip-list" id="dateChipList"></div>
     <p class="archive-summary" id="archiveSummary"></p>
+    <ul class="articles" id="archiveArticles"></ul>
+    <button class="load-more" id="loadMoreBtn" type="button" style="display:none;">もっと見る</button>
+    <p class="empty-state" id="emptyState" style="display:none;">該当する論文が見つかりませんでした。</p>
   </div>
-  <ul class="articles" id="archiveArticles"></ul>
-  <button class="load-more" id="loadMoreBtn" type="button" style="display:none;">もっと見る</button>
-  <p class="empty-state" id="emptyState" style="display:none;">該当する論文が見つかりませんでした。</p>
-
-  <footer>
-    出典：PubMed（NCBI E-utilities）・Europe PMC（クラシック論文の被引用数ソートに使用）。IF（インパクトファクター）は参考値であり年度により変動する。要約・翻訳・「結論」の見出しは生成AIによるもので、臨床判断には必ず原文をご確認ください。
-  </footer>
-</div>
+</aside>
 
 <script>
 (function(){
@@ -463,11 +573,13 @@
   var loadMoreBtn = document.getElementById('loadMoreBtn');
   var emptyState = document.getElementById('emptyState');
   var latestDateEl = document.getElementById('latestDate');
+  var dateChipList = document.getElementById('dateChipList');
   var chips = Array.prototype.slice.call(document.querySelectorAll('.filter-chip'));
 
   var PAGE_SIZE = 10;
   var visibleCount = PAGE_SIZE;
   var currentFilter = 'all';
+  var currentDate = null;
   var allArticles = [];
 
   function escapeHtml(s){
@@ -479,6 +591,14 @@
     var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
     if(!m) return iso || '';
     return m[1] + '年' + parseInt(m[2],10) + '月' + parseInt(m[3],10) + '日';
+  }
+
+  // 表記ゆれを吸収する正規化（例：「大腸がん」で検索しても「大腸癌」がヒットするように）
+  function normalizeJa(s){
+    s = String(s || '').toLowerCase();
+    s = s.replace(/[ァ-ヶ]/g, function(ch){ return String.fromCharCode(ch.charCodeAt(0) - 0x60); });
+    s = s.replace(/がん/g, '癌');
+    return s;
   }
 
   function metaSpans(a){
@@ -526,22 +646,10 @@
     });
   }
 
-  // 表記ゆれを吸収する正規化（例：「大腸がん」で検索しても「大腸癌」がヒットするように）
-  function normalizeJa(s){
-    s = String(s || '').toLowerCase();
-    // カタカナ→ひらがな（全角）に統一。これにより「ガン」も後続の置換で拾える
-    s = s.replace(/[ァ-ヶ]/g, function(ch){
-      return String.fromCharCode(ch.charCodeAt(0) - 0x60);
-    });
-    // 「がん」の表記ゆれを「癌」に統一（大腸がん↔大腸癌、肝がん↔肝癌 など全般に対応）
-    s = s.replace(/がん/g, '癌');
-    return s;
-  }
-
   function searchText(a){
     if(a._search) return a._search;
     var plain = function(s){ return String(s || '').replace(/<[^>]+>/g,''); };
-    var raw = [a.conclusion, a.titleJa, a.titleOriginal, a.journal, plain(a.stat), plain(a.bodyJa), plain(a.impactNote)]
+    var raw = [a.conclusion, a.titleJa, a.titleOriginal, a.journal, plain(a.stat), plain(a.bodyJa), plain(a.impactNote), formatDateJa(a.runDate)]
       .join(' ');
     a._search = normalizeJa(raw);
     return a._search;
@@ -558,10 +666,31 @@
     bindToggles(todayList);
   }
 
+  function renderDateChips(){
+    var counts = {};
+    allArticles.forEach(function(a){ counts[a.runDate] = (counts[a.runDate] || 0) + 1; });
+    var dates = Object.keys(counts).sort().reverse();
+    var html = '<button class="date-chip" data-date="" aria-pressed="' + (currentDate === null) + '">すべての日付</button>';
+    html += dates.map(function(d){
+      return '<button class="date-chip" data-date="' + d + '" aria-pressed="' + (currentDate === d) + '">' +
+        formatDateJa(d) + '（' + counts[d] + '）</button>';
+    }).join('');
+    dateChipList.innerHTML = html;
+    dateChipList.querySelectorAll('.date-chip').forEach(function(chip){
+      chip.addEventListener('click', function(){
+        currentDate = chip.dataset.date || null;
+        visibleCount = PAGE_SIZE;
+        renderDateChips();
+        renderArchive();
+      });
+    });
+  }
+
   function filteredSorted(){
     var q = normalizeJa(searchInput.value.trim());
     return allArticles.slice().reverse().filter(function(a){
       if(currentFilter !== 'all' && a.type !== currentFilter) return false;
+      if(currentDate && a.runDate !== currentDate) return false;
       if(q && searchText(a).indexOf(q) === -1) return false;
       return true;
     });
@@ -581,7 +710,7 @@
       var lastDate = null;
       shown.forEach(function(a){
         if(a.runDate !== lastDate){
-          html += '<li class="date-heading" style="list-style:none;border:none;">' + formatDateJa(a.runDate) + '</li>';
+          html += '<li class="date-heading">' + formatDateJa(a.runDate) + '</li>';
           lastDate = a.runDate;
         }
         html += cardHtml(a, 'arc-' + a.pmid);
@@ -616,12 +745,41 @@
     .then(function(data){
       allArticles = data;
       renderToday();
+      renderDateChips();
       renderArchive();
     })
     .catch(function(err){
       todayList.innerHTML = '<li class="empty-state" style="list-style:none;border:none;">論文データの読み込みに失敗しました。しばらくしてから再度お試しください。</li>';
       console.error(err);
     });
+
+  // ---- ハンバーガーメニュー ⇔ アーカイブ・検索ドロワー ----
+  var menuBtn = document.getElementById('menuBtn');
+  var drawer = document.getElementById('drawer');
+  var drawerBackdrop = document.getElementById('drawerBackdrop');
+  var drawerClose = document.getElementById('drawerClose');
+
+  function openDrawer(){
+    drawer.classList.add('is-open');
+    drawerBackdrop.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ searchInput.focus({ preventScroll: true }); }, 150);
+  }
+  function closeDrawer(){
+    drawer.classList.remove('is-open');
+    drawerBackdrop.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  menuBtn.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  drawerBackdrop.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
+  });
 })();
 
 // ---- ホーム画面に追加バナー（iOS Safariでのみ、まだ追加していない場合に表示）----
