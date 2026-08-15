@@ -228,8 +228,16 @@
   }
   li[data-open="true"] .art-head .mark{ transform:rotate(45deg); }
 
+  /* 「＋」アイコン分の字下げは、各要素に個別のmarginを付けるのではなく
+     この1つのラッパーのpaddingだけで作る（幅の取りこぼしを防ぐため） */
+  .art-summary{
+    padding-left:1.5rem;
+    box-sizing:border-box;
+    width:100%;
+  }
+
   .art-meta{
-    margin:0 0 0 1.5rem;
+    margin:0;
     font-family:var(--mono);
     font-size:0.72rem;
     color:var(--ink-faint);
@@ -238,12 +246,9 @@
     flex-wrap:wrap;
     align-items:center;
     gap:0.3rem 0.7rem;
-    max-width:100%;
-    min-width:0;
     overflow-wrap:anywhere;
   }
-  .art-meta > *{ min-width:0; max-width:100%; }
-  .art-meta .journal{ font-style:italic; color:var(--ink-muted); font-family:var(--serif); font-size:0.78rem; min-width:0; overflow-wrap:break-word; }
+  .art-meta .journal{ font-style:italic; color:var(--ink-muted); font-family:var(--serif); font-size:0.78rem; }
   .art-meta .if-tag{
     background:var(--accent-soft);
     color:var(--accent);
@@ -253,7 +258,7 @@
   }
 
   .art-conclusion{
-    margin:0.5rem 0 0 1.5rem;
+    margin:0.5rem 0 0;
     font-family:var(--serif);
     font-size:1.28rem;
     font-weight:700;
@@ -261,27 +266,24 @@
     color:var(--ink);
     text-wrap:balance;
     overflow-wrap:break-word;
-    max-width:min(26em, 100%);
   }
 
   .art-stat{
-    margin:0.5rem 0 0 1.5rem;
+    margin:0.5rem 0 0;
     font-size:0.86rem;
     line-height:1.7;
     color:var(--ink-muted);
-    max-width:100%;
     overflow-wrap:break-word;
     font-variant-numeric:tabular-nums;
   }
   .art-stat b{ color:var(--accent); font-weight:600; }
 
   .art-title{
-    margin:0.6rem 0 0 1.5rem;
+    margin:0.6rem 0 0;
     font-size:0.82rem;
     line-height:1.6;
     color:var(--ink-faint);
     font-style:italic;
-    max-width:100%;
     overflow-wrap:break-word;
   }
 
@@ -650,10 +652,12 @@ window.addEventListener('pageshow', function(e){
       '<li data-open="false">' +
         '<button class="art-toggle" data-target="' + uid + '">' +
           '<div class="art-head"><span class="mark">＋</span></div>' +
-          '<div class="art-meta">' + metaSpans(a) + '</div>' +
-          '<div class="art-conclusion">' + escapeHtml(a.conclusion) + '</div>' +
-          '<p class="art-stat">' + a.stat + '</p>' +
-          '<p class="art-title">（原題和訳：' + escapeHtml(a.titleJa) + '）</p>' +
+          '<div class="art-summary">' +
+            '<div class="art-meta">' + metaSpans(a) + '</div>' +
+            '<div class="art-conclusion">' + escapeHtml(a.conclusion) + '</div>' +
+            '<p class="art-stat">' + a.stat + '</p>' +
+            '<p class="art-title">（原題和訳：' + escapeHtml(a.titleJa) + '）</p>' +
+          '</div>' +
         '</button>' +
         '<div class="art-detail" id="' + uid + '"><div class="art-detail-inner"><div class="art-body">' +
           '<h4>日本語全文訳</h4>' +
