@@ -1,4 +1,12 @@
 <title>消化器内科ダイジェスト</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eef2f0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GIダイジェスト">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoi5raI5YyW5Zmo5YaF56eR44OA44Kk44K444Kn44K544OIIiwic2hvcnRfbmFtZSI6IkdJ44OA44Kk44K444Kn44K544OIIiwiZGVzY3JpcHRpb24iOiLjgqTjg7Pjg5Hjgq/jg4jjg5XjgqHjgq/jgr/jg7zkuIrkvY3jga7mnIDmlrDoq5bmlofjgagyMDEw5bm05Lul6ZmN44Gu5ZCN6KuW5paH44KS57WQ6KuW44OV44Kh44O844K544OI44Gn6Kqt44KAIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNlZWYyZjAiLCJ0aGVtZV9jb2xvciI6IiMwZTZiNWMiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhPREFnTVRnd0lpQjNhV1IwYUQwaU1UZ3dJaUJvWldsbmFIUTlJakU0TUNJK1BISmxZM1FnZDJsa2RHZzlJakU0TUNJZ2FHVnBaMmgwUFNJeE9EQWlJR1pwYkd3OUlpTXdaVFppTldNaUx6NDhkR1Y0ZENCNFBTSTVNQ0lnZVQwaU9UTWlJR1p2Ym5RdFptRnRhV3g1UFNJblNHbHlZV2RwYm04Z1RXbHVZMmh2SUZCeWIwNG5MQ2RaZFNCTmFXNWphRzhuTENkT2IzUnZJRk5sY21sbUlFcFFKeXh6WlhKcFppSWdabTl1ZEMxemFYcGxQU0l4TVRRaUlHWnZiblF0ZDJWcFoyaDBQU0kzTURBaUlHWnBiR3c5SWlObFpXWXlaakFpSUhSbGVIUXRZVzVqYUc5eVBTSnRhV1JrYkdVaUlHUnZiV2x1WVc1MExXSmhjMlZzYVc1bFBTSmpaVzUwY21Gc0lqN29nNE04TDNSbGVIUStQQzl6ZG1jK0NnPT0iLCJzaXplcyI6IjE4MHgxODAiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCIsInB1cnBvc2UiOiJhbnkifV19Cg==">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCI+PHJlY3Qgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxODAiIGZpbGw9IiMwZTZiNWMiLz48dGV4dCB4PSI5MCIgeT0iOTMiIGZvbnQtZmFtaWx5PSInSGlyYWdpbm8gTWluY2hvIFByb04nLCdZdSBNaW5jaG8nLCdOb3RvIFNlcmlmIEpQJyxzZXJpZiIgZm9udC1zaXplPSIxMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNlZWYyZjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIj7og4M8L3RleHQ+PC9zdmc+Cg==">
 <style>
   :root{
     --paper:#eef2f0;
@@ -37,17 +45,21 @@
   }
 
   *{box-sizing:border-box;}
+  html{ -webkit-text-size-adjust:100%; }
   body{
     margin:0;
     background:var(--paper);
     color:var(--ink);
     font-family:var(--sans);
     -webkit-font-smoothing:antialiased;
+    /* ホーム画面から起動した際（standalone表示）にノッチ・ステータスバーと重ならないようにする */
+    padding-top:env(safe-area-inset-top);
+    padding-bottom:env(safe-area-inset-bottom);
   }
   .page{
     max-width:680px;
     margin:0 auto;
-    padding:2.5rem 1.25rem 5rem;
+    padding:2.5rem max(1.25rem, env(safe-area-inset-right)) 5rem max(1.25rem, env(safe-area-inset-left));
   }
 
   /* ---- masthead ---- */
@@ -98,6 +110,35 @@
     margin:1.5rem 0 2rem;
   }
   .note strong{ color:var(--ink); }
+
+  /* ---- ホーム画面追加バナー（iOS向け） ---- */
+  .a2hs{
+    display:none;
+    align-items:center;
+    gap:0.75rem;
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:8px;
+    padding:0.75rem 0.9rem;
+    margin:0 0 1.25rem;
+    font-size:0.82rem;
+    line-height:1.55;
+  }
+  .a2hs.is-visible{ display:flex; }
+  .a2hs .a2hs-icon{ font-size:1.3rem; flex:none; }
+  .a2hs .a2hs-text b{ color:var(--accent-soft); }
+  .a2hs-close{
+    all:unset;
+    cursor:pointer;
+    margin-left:auto;
+    flex:none;
+    color:var(--paper);
+    opacity:0.65;
+    font-family:var(--mono);
+    font-size:0.9rem;
+    padding:0.2rem 0.4rem;
+  }
+  .a2hs-close:hover{ opacity:1; }
 
   /* ---- settings panel ---- */
   .settings{
@@ -347,6 +388,12 @@
     </div>
   </div>
 
+  <div class="a2hs" id="a2hs">
+    <span class="a2hs-icon">📲</span>
+    <span class="a2hs-text">ホーム画面に追加すると、アプリのように使えます：<b>共有ボタン</b>（<span aria-hidden="true">⬆︎</span>）をタップ→「<b>ホーム画面に追加</b>」</span>
+    <button class="a2hs-close" id="a2hsClose" aria-label="閉じる">✕</button>
+  </div>
+
   <p class="note">
     <strong>これはデモです。</strong> 新着論文だけでなく、<strong>2010年以降に大きな影響を与えた名論文（便移植によるC.ディフィシル治療、C型肝炎の経口薬治療など）</strong>もインパクトファクターの高い誌から選び、直近の注目論文と組み合わせて表示しています（1990年代以前の古すぎる論文は対象から外し、2010年以降に絞っています）。各カードは<strong>結論を先頭に大きく表示</strong>し、論文タイトルはカッコ書きで小さく添える形にしています。下の「表示設定」で、クラシック論文と最新論文の比率をご自身で調整できます。カードをタップすると全文訳が開きます。実運用では毎晩ローカルPCが自動でこの一覧を更新します。
   </p>
@@ -571,7 +618,7 @@
   </ul>
 
   <footer>
-    出典：PubMed（NCBI E-utilities）。IF（インパクトファクター）は参考値であり年度により変動する。要約・翻訳・「結論」の見出しは生成AIによるもので、臨床判断には必ず原文をご確認ください。クラシック論文の選定は編集部（Claude）による恣意的なものであり、網羅的なものではありません。
+    出典：PubMed（NCBI E-utilities）・Europe PMC（クラシック論文の被引用数ソートに使用）。IF（インパクトファクター）は参考値であり年度により変動する。要約・翻訳・「結論」の見出しは生成AIによるもので、臨床判断には必ず原文をご確認ください。
   </footer>
 </div>
 
@@ -640,5 +687,26 @@
     countSel.addEventListener('change', applySettings);
     ratioRange.addEventListener('input', applySettings);
     applySettings();
+  })();
+
+  // ---- ホーム画面に追加バナー（iOS Safariでのみ、まだ追加していない場合に表示）----
+  (function(){
+    var DISMISS_KEY = 'gi-digest-a2hs-dismissed';
+    var banner = document.getElementById('a2hs');
+    var closeBtn = document.getElementById('a2hsClose');
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS対策
+    var isStandalone = ('standalone' in navigator && navigator.standalone) ||
+      window.matchMedia('(display-mode: standalone)').matches;
+    var dismissed = false;
+    try{ dismissed = localStorage.getItem(DISMISS_KEY) === '1'; }catch(e){}
+
+    if(isIOS && !isStandalone && !dismissed){
+      banner.classList.add('is-visible');
+    }
+    closeBtn.addEventListener('click', function(){
+      banner.classList.remove('is-visible');
+      try{ localStorage.setItem(DISMISS_KEY, '1'); }catch(e){}
+    });
   })();
 </script>
