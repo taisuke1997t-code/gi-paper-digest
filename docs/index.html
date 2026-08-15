@@ -578,6 +578,20 @@ window.addEventListener('pageshow', function(e){
   if (e.persisted) { window.location.reload(); }
 });
 
+// GitHub PagesはCache-Control: max-age=600を返すため、iOSのホーム画面アプリは
+// 起動のたびにこのHTTPキャッシュを再利用してしまい、更新後もしばらく（あるいは
+// それ以上）古い見た目のままになることがある。セッションにつき1回だけ、
+// クエリ文字列を変えて再読み込みし、キャッシュを迂回して確実に最新版を取得する。
+(function(){
+  try{
+    if(location.search.indexOf('_r=') !== -1) return; // 既にキャッシュ回避済みのURL
+    if(sessionStorage.getItem('gi-digest-cache-bust')) return; // このセッションでは実施済み
+    sessionStorage.setItem('gi-digest-cache-bust', '1');
+    var sep = location.search ? '&' : '?';
+    location.replace(location.pathname + location.search + sep + '_r=' + Date.now());
+  }catch(e){}
+})();
+
 (function(){
   var todayList = document.getElementById('todayArticles');
   var todayCount = document.getElementById('todayCount');
