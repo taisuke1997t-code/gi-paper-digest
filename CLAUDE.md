@@ -127,14 +127,23 @@ PubMed / Europe PMC など権威ある情報源から**インパクトファク�
 
 ---
 
+## 自動化の実地検証（2026-08-15完了）
+
+`.local/run-daily-digest.ps1` を実際に1回手動実行し、収集〜選定〜翻訳〜`docs/index.html`書き換え〜`資料/使用履歴.md`追記〜git commit・pushまでが**完全ノーミスで動くことを確認済み**。実行結果：
+- 最新論文1本（リンチ症候群へのアスピリンCaPP3試験、Lancet Gastroenterol Hepatol）＋クラシック論文4本（CANONIC研究・大腸オルガノイド培養・GLOBOCAN大腸癌疫学・NAFLD疾病負荷予測モデル）を新規に選定
+- コミット`d30ce5f`としてpush成功、GitHub Pages（https://taisuke1997t-code.github.io/gi-paper-digest/ ）にも数分後に反映されたことを確認
+- 既存の未コミット変更（CLAUDE.mdの編集中の内容や`.gitignore`）には一切触れず、対象ファイルのみを正しくステージ・コミットしていた
+
+これでタスクスケジューラ経由の完全無人実行も同じように動作するはずである（人間が画面の前にいなくても、`claude.exe -p --dangerously-skip-permissions`が同じ手順を辿るため）。
+
 ## 未着手・次にやること
 
-- [ ] GitHubリポジトリ`gi-paper-digest`の作成・初回push・Pages有効化
-- [ ] `.local/run-daily-digest.ps1`の実装（Xの`run-daily-post.ps1`をベースに、PubMed＋Europe PMCでの収集・30日重複除外ロジックを盛り込んだプロンプトを作成）
+- [x] GitHubリポジトリ`gi-paper-digest`の作成・初回push・Pages有効化（2026-08-15完了。公開URL：https://taisuke1997t-code.github.io/gi-paper-digest/ 、リポジトリ：https://github.com/taisuke1997t-code/gi-paper-digest ）
+- [x] `.local/run-daily-digest.ps1`の実装＋実地検証（2026-08-15完了。Xの`run-daily-post.ps1`をベースに、PubMed＋Europe PMCでの収集・30日重複除外ロジックを盛り込んだプロンプトを作成し、実際に1回手動実行して成功を確認。**注意：** `.ps1`ファイルはUTF-8 BOM付きで保存すること——BOMなしだとWindows PowerShell 5.1が日本語ヒアドキュメント内の文字を誤読し、`missing terminator`エラーで構文エラーになった実例あり）
 - [ ] IFティア一覧の妥当性検証（現状の数値は概算・要確認）と、定期更新の仕組み
 - [ ] Tier S（NEJM/Lancet/JAMA）からクラシック論文を自動検索するクエリの確立（現状はGI専門誌のみ自動化できていて、総合誌からの発掘は手動）
 - [ ] 表示設定（クラシック比率・表示件数）を自動収集スクリプト側のデフォルト値と同期する仕組み（現状はブラウザ内だけで完結）
 - [ ] 1日あたりの配信本数の決定（未確定。デモでは5本）
-- [ ] Windowsタスクスケジューラへの登録（実行時刻はXの自動化＝21:00と重ならないよう調整）
+- [x] Windowsタスクスケジューラへの登録（2026-08-15完了。タスク名：`医学論文アプリ_毎日ダイジェスト更新`、毎日21:30実行。Xの自動化（21:00）と30分ずらしてある。ウェイクタイマーは既存のXタスクと共通の電源設定に依存）
 - [ ] （将来・保留）LINE通知の実装
 - [ ] （将来）オープンアクセス論文の全文自動翻訳／購読誌の手動PDFアップロード運用
