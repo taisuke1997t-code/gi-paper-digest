@@ -52,7 +52,6 @@
     color:var(--ink);
     font-family:var(--sans);
     -webkit-font-smoothing:antialiased;
-    /* ホーム画面から起動した際（standalone表示）にノッチ・ステータスバーと重ならないようにする */
     padding-top:env(safe-area-inset-top);
     padding-bottom:env(safe-area-inset-bottom);
   }
@@ -140,87 +139,22 @@
   }
   .a2hs-close:hover{ opacity:1; }
 
-  /* ---- settings panel ---- */
-  .settings{
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:1rem 1.15rem 1.1rem;
-    margin:0 0 2.25rem;
-    background:var(--surface);
-  }
-  .settings-head{
-    display:flex;
-    align-items:center;
-    gap:0.5rem;
+  /* ---- section headers ---- */
+  .section-label{
     font-family:var(--mono);
     font-size:0.72rem;
     letter-spacing:0.1em;
     text-transform:uppercase;
     color:var(--ink-faint);
-    margin-bottom:0.9rem;
-  }
-  .settings-grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:0.9rem;
-  }
-  @media (min-width:480px){
-    .settings-grid{ grid-template-columns:auto 1fr; align-items:center; }
-  }
-  .settings-row label{
-    display:block;
-    font-size:0.82rem;
-    color:var(--ink-muted);
-    margin-bottom:0.35rem;
-  }
-  .settings-row label b{ color:var(--ink); font-variant-numeric:tabular-nums; }
-  .settings select{
-    font-family:var(--sans);
-    font-size:0.86rem;
-    color:var(--ink);
-    background:var(--paper);
-    border:1px solid var(--line);
-    border-radius:5px;
-    padding:0.35rem 0.5rem;
-  }
-  .settings input[type="range"]{
-    width:100%;
-    accent-color:var(--accent);
-  }
-  .settings-scale{
+    margin:2.25rem 0 0.75rem;
     display:flex;
-    justify-content:space-between;
-    font-family:var(--mono);
-    font-size:0.65rem;
-    color:var(--ink-faint);
-    margin-top:0.25rem;
+    align-items:baseline;
+    gap:0.6rem;
   }
-  .settings-summary{
-    margin:1rem 0 0;
-    padding-top:0.85rem;
-    border-top:1px solid var(--line);
-    font-size:0.88rem;
-    color:var(--ink);
-    font-weight:600;
-  }
-  .settings-summary b{ color:var(--accent); }
-  .settings-note{
-    margin:0.4rem 0 0;
-    font-size:0.76rem;
-    line-height:1.6;
-    color:var(--ink-faint);
-  }
+  .section-label:first-of-type{ margin-top:0; }
+  .section-label .count{ color:var(--accent); font-weight:600; }
 
-  /* ---- article list ---- */
-  .toc-label{
-    font-family:var(--mono);
-    font-size:0.72rem;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-    color:var(--ink-faint);
-    margin:0 0 0.75rem;
-  }
-
+  /* ---- article list (shared by today + archive) ---- */
   ul.articles{
     list-style:none;
     margin:0;
@@ -230,6 +164,15 @@
   .articles li{
     border-bottom:1px solid var(--line);
   }
+  .date-heading{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:0.82rem;
+    color:var(--ink-faint);
+    margin:1.5rem 0 0;
+    padding:0.5rem 0.25rem 0;
+  }
+  .date-heading:first-child{ margin-top:0; }
 
   .art-toggle{
     all:unset;
@@ -315,7 +258,6 @@
   }
   li[data-open="true"] .art-detail{ grid-template-rows:1fr; }
   .art-detail-inner{ overflow:hidden; }
-  .articles li[data-shown="false"]{ display:none; }
 
   .type-tag{
     font-family:var(--mono);
@@ -350,6 +292,14 @@
     margin:0 0 0.9rem;
     white-space:pre-line;
   }
+  .art-impact-note{
+    font-size:0.82rem;
+    color:var(--ink-faint);
+    border-top:1px solid var(--line);
+    padding-top:0.7rem;
+    margin:0 0 0.9rem;
+    line-height:1.7;
+  }
   .art-original{
     font-size:0.78rem;
     color:var(--ink-faint);
@@ -363,6 +313,86 @@
     border-bottom:1px solid var(--accent-soft);
   }
   .art-original a:hover{ border-bottom-color:var(--accent); }
+
+  /* ---- archive controls (search + filter) ---- */
+  .archive-controls{
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:1rem 1.15rem 1.1rem;
+    margin:0.75rem 0 0;
+    background:var(--surface);
+  }
+  .search-row{
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:0.5rem 0.75rem;
+    background:var(--paper);
+  }
+  .search-row .icon{ color:var(--ink-faint); flex:none; font-size:0.9rem; }
+  .search-row input{
+    all:unset;
+    flex:1;
+    font-family:var(--sans);
+    font-size:0.92rem;
+    color:var(--ink);
+    min-width:0;
+  }
+  .search-row input::placeholder{ color:var(--ink-faint); }
+  .filter-chips{
+    display:flex;
+    gap:0.5rem;
+    margin-top:0.75rem;
+    flex-wrap:wrap;
+  }
+  .filter-chip{
+    all:unset;
+    cursor:pointer;
+    font-family:var(--mono);
+    font-size:0.72rem;
+    letter-spacing:0.02em;
+    padding:0.3rem 0.7rem;
+    border-radius:99px;
+    border:1px solid var(--line);
+    color:var(--ink-muted);
+  }
+  .filter-chip[aria-pressed="true"]{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+  .archive-summary{
+    font-size:0.78rem;
+    color:var(--ink-faint);
+    margin:0.75rem 0 0;
+  }
+
+  .load-more{
+    all:unset;
+    display:block;
+    box-sizing:border-box;
+    width:100%;
+    text-align:center;
+    cursor:pointer;
+    font-family:var(--mono);
+    font-size:0.78rem;
+    letter-spacing:0.05em;
+    color:var(--accent);
+    border:1px dashed var(--line);
+    border-radius:6px;
+    padding:0.9rem;
+    margin:1.25rem 0 0;
+  }
+  .load-more:hover{ border-color:var(--accent); }
+
+  .empty-state{
+    font-size:0.86rem;
+    color:var(--ink-faint);
+    text-align:center;
+    padding:2rem 1rem;
+  }
 
   footer{
     margin-top:3rem;
@@ -380,11 +410,11 @@
 
 <div class="page">
   <div class="masthead">
-    <div class="eyebrow">Daily GI Research Brief · プロトタイプ</div>
+    <div class="eyebrow">Daily GI Research Brief</div>
     <h1>消化器内科ダイジェスト</h1>
     <div class="sub">
-      <span><b>2026年8月15日</b>号</span>
-      <span>クラシックの名論文 × 最新の注目論文（IF上位誌を優先）</span>
+      <span>最新更新：<b id="latestDate">—</b></span>
+      <span>クラシックの名論文 × 最新の注目論文（IF・被引用数上位を優先）</span>
     </div>
   </div>
 
@@ -395,145 +425,28 @@
   </div>
 
   <p class="note">
-    <strong>これはデモです。</strong> 新着論文だけでなく、<strong>2010年以降に大きな影響を与えた名論文（便移植によるC.ディフィシル治療、C型肝炎の経口薬治療など）</strong>もインパクトファクターの高い誌から選び、直近の注目論文と組み合わせて表示しています（1990年代以前の古すぎる論文は対象から外し、2010年以降に絞っています）。各カードは<strong>結論を先頭に大きく表示</strong>し、論文タイトルはカッコ書きで小さく添える形にしています。下の「表示設定」で、クラシック論文と最新論文の比率をご自身で調整できます。カードをタップすると全文訳が開きます。実運用では毎晩ローカルPCが自動でこの一覧を更新します。
+    新着論文だけでなく、<strong>過去に大きな影響を与えた名論文（2010年以降・被引用数上位）</strong>もインパクトファクターの高い誌から選び、直近の注目論文と組み合わせて表示しています。各カードは<strong>結論を先頭に大きく表示</strong>し、論文タイトルはカッコ書きで小さく添える形にしています。毎晩ローカルPCが自動でこの一覧を更新し、<strong>過去に掲載した論文もすべてアーカイブに残ります</strong>。下の検索欄からいつでも探せます。
   </p>
 
-  <div class="settings">
-    <div class="settings-head">⚙ 表示設定</div>
-    <div class="settings-grid">
-      <div class="settings-row">
-        <label for="countSel">表示件数</label>
-        <select id="countSel">
-          <option value="3">3本</option>
-          <option value="5" selected>5本</option>
-          <option value="7">7本</option>
-          <option value="9">9本</option>
-        </select>
-      </div>
-      <div class="settings-row">
-        <label for="ratioRange">クラシック論文（歴史的名論文）の割合：<b id="ratioVal">80%</b></label>
-        <input type="range" id="ratioRange" min="0" max="100" step="10" value="80">
-        <div class="settings-scale"><span>最新のみ</span><span>半々</span><span>クラシックのみ</span></div>
-      </div>
+  <p class="section-label">今日のダイジェスト <span class="count" id="todayCount"></span></p>
+  <ul class="articles" id="todayArticles"></ul>
+
+  <p class="section-label" style="margin-top:3rem;">アーカイブ・検索</p>
+  <div class="archive-controls">
+    <div class="search-row">
+      <span class="icon">🔍</span>
+      <input type="search" id="searchInput" placeholder="病名・薬剤名・誌名などで検索（例：肝硬変、大腸癌、NEJM）" autocomplete="off">
     </div>
-    <p class="settings-summary" id="settingsSummary">表示中：クラシック論文 <b>4本</b>／最新の注目論文 <b>1本</b></p>
-    <p class="settings-note">この設定はこの端末（ブラウザ）に保存され、次回訪問時も引き継がれます。毎日の自動収集も、同じ比率をデフォルトとして論文を選びます。</p>
+    <div class="filter-chips" role="group" aria-label="論文タイプで絞り込み">
+      <button class="filter-chip" data-filter="all" aria-pressed="true">すべて</button>
+      <button class="filter-chip" data-filter="classic" aria-pressed="false">クラシック</button>
+      <button class="filter-chip" data-filter="recent" aria-pressed="false">最新</button>
+    </div>
+    <p class="archive-summary" id="archiveSummary"></p>
   </div>
-
-  <p class="toc-label" id="tocLabel">本日の5本（インパクトファクター優先選定）</p>
-
-  <ul class="articles" id="articles">
-
-    <li data-open="false" data-type="recent" data-priority="1">
-      <button class="art-toggle" data-target="a1">
-        <div class="art-head"><span class="mark">＋</span></div>
-        <div class="art-meta"><span class="type-tag recent">RECENT</span><span class="journal">Lancet Gastroenterol Hepatol</span><span class="if-tag">IF≈35</span><span>2026-09号</span><span>PMID 42425127</span></div>
-        <div class="art-conclusion">リンチ症候群のがん予防、低用量アスピリン(100mg)は高用量に迫る効果で出血は少ない</div>
-        <p class="art-stat">リンチ症候群関連癌の発生 <b>100mg群57件・300mg群75件・600mg群84件</b>。重篤な出血は100mg群0件 vs 600mg群11件（1.5%）。</p>
-        <p class="art-title">（原題和訳：リンチ症候群患者におけるがん予防のためのアスピリン：CaPP3多施設共同ランダム化二重盲検非劣性試験の初回結果）</p>
-      </button>
-      <div class="art-detail" id="a1"><div class="art-detail-inner"><div class="art-body">
-        <h4>日本語全文訳</h4>
-        <p><b>背景：</b>先行するCAPP2試験では、1日600mgのアスピリンがリンチ症候群患者における大腸癌および全リンチ症候群関連癌の発生率を有意に減少させた。CaPP3は、より低用量2種のアスピリンの有効性を検討することを目的とした。
-
-<b>方法：</b>CaPP3は、英国・オーストラリア・フィンランド・イスラエル・スペインの臨床遺伝学センターから登録された18歳超のリンチ症候群保因者を対象に、100mgまたは300mgの1日1回投与を600mgの1日1回投与と比較する多施設共同並行群間ランダム化二重盲検用量非劣性試験である。参加者は3:3:4の比率で100mg・300mg・600mg群に割り付けられた。盲検期間は2年間、その後3年間は同一用量での非盲検投与とした。主要評価項目は新規のミスマッチ修復欠損癌（リンチ症候群関連癌）の発生数、安全性評価項目は盲検期間2年間における関心のある有害事象の発生数とした。非劣性マージンは各低用量とも600mg群に対して1.5とした。
-
-<b>結果：</b>2014年10月から2019年3月までに1879人のリンチ症候群患者が登録・ランダム化された（100mg群564人、300mg群565人、600mg群750人）。追跡期間中央値66.4か月の時点で176人が216件のリンチ症候群関連癌と診断された（100mg群57件、300mg群75件、600mg群84件）。intention-to-treat解析では、100mg群は600mg群に対しリンチ症候群癌発生までのハザード比0.97（95%CI 0.67-1.42）・癌負荷の罹患率比0.94（95%CI 0.65-1.38）と非劣性を示したが、per-protocol解析ではハザード比の非劣性は示されなかった。300mg群は、いずれの解析でも非劣性は示されなかった。有害事象は用量依存的に増加し、出血による重篤な有害事象は100mg群0件、300mg群3件（0.5%）、600mg群11件（1.5%）だった（p=0.004）。
-
-<b>結論：</b>100mg・300mgいずれのアスピリンも600mgに対する形式的な非劣性は証明されなかったが、100mg用量はがんリスクの点で600mgと同程度の特性を示しつつ、副作用や出血リスクは少ないというエビデンスが得られた（資金提供：Cancer Research UK、Bayer Pharma、Newcastle Hospitals NHS Foundation Trust、CaPP3試験、ISRCTN16261285/NCT02497820）。</p>
-        <div class="art-original">原題：Aspirin for cancer prevention in individuals with Lynch syndrome: first results from the CaPP3 multicentre, randomised, double-blind, non-inferiority trial. — <a href="https://pubmed.ncbi.nlm.nih.gov/42425127/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
-      </div></div></div>
-    </li>
-
-    <li data-open="false" data-type="classic" data-priority="1">
-      <button class="art-toggle" data-target="a2">
-        <div class="art-head"><span class="mark">＋</span></div>
-        <div class="art-meta"><span class="type-tag classic">CLASSIC 2013</span><span class="journal">Gastroenterology</span><span>CANONIC研究</span><span>PMID 23474284</span></div>
-        <div class="art-conclusion">急性増悪した肝硬変に起こる"ACLF"は、単なる悪化ではなく別の症候群だった</div>
-        <p class="art-stat">28日死亡率 <b>ACLF患者33.9% vs 非合併患者1.9%</b>。CLIF-SOFAスコアと白血球数が独立した死亡予測因子。</p>
-        <p class="art-title">（原題和訳：急性増悪した肝硬変患者に発症する、慢性肝不全とは異なる症候群としての急性慢性肝不全）</p>
-      </button>
-      <div class="art-detail" id="a2"><div class="art-detail-inner"><div class="art-body">
-        <h4>日本語全文訳</h4>
-        <p><b>背景：</b>急性増悪（AD）と臓器不全を伴い入院した肝硬変患者は死亡リスクが高く、急性慢性肝不全（ACLF）を有すると考えられている。しかしACLFの確立した診断基準はなく、その発症・進展についてはほとんど分かっていなかった。欧州の急性増悪を伴う肝硬変患者においてACLFの診断基準を確立し、この症候群の発症を記述することを目的とした。
-
-<b>方法：</b>2011年2月から9月にかけて、欧州8か国29の肝臓専門施設に入院した急性増悪を伴う肝硬変患者1343人のデータを収集した。臓器不全および死亡のデータを用いてACLFのグレードを定義し、死亡率を評価し、ACLFと急性増悪の違いを同定した。臓器不全（CLIF-SOFAスコアで定義）と高い28日死亡率（15%超）を有する患者の解析に基づき、ACLFの診断基準を確立した。
-
-<b>結果：</b>評価対象患者のうち、試験開始時点で303人がACLFを有し、112人がその後ACLFを発症し、928人はACLFを有さなかった。試験開始時点でACLFを有していた患者の28日死亡率は33.9%、その後ACLFを発症した患者では29.7%、ACLFを有さなかった患者では1.9%だった。ACLF患者はより若年で、アルコール性がより多く、細菌感染の合併がより多く、白血球数・CRP値がより高かった（いずれもP&lt;0.001）。ACLF患者において、CLIF-SOFAスコアの高さと白血球数の高さが独立した死亡予測因子だった。急性増悪の既往がない患者では、既往のある患者に比べ、臓器不全数・白血球数・死亡率がいずれも高いという予想外の特徴を認めた。
-
-<b>結論：</b>急性増悪を伴う肝硬変患者のデータを解析し、ACLFの診断基準を確立した。ACLFは、臓器不全の存在と高い死亡率だけでなく、年齢・誘因・全身性炎症の点でも急性増悪とは異なる症候群であることを示した。ACLFの死亡率は臓器機能の喪失と白血球数の高さに関連し、急性増悪の既往がない患者でとくに重症化しやすい（CANONIC研究）。</p>
-        <p style="font-size:0.82rem;color:var(--ink-faint);border-top:1px solid var(--line);padding-top:0.7rem;">本研究（CANONIC研究）はACLFという病態を初めて明確な診断基準とともに定義し、その後の肝不全診療・研究の基盤となった。</p>
-        <div class="art-original">原題：Acute-on-chronic liver failure is a distinct syndrome that develops in patients with acute decompensation of cirrhosis. — <a href="https://pubmed.ncbi.nlm.nih.gov/23474284/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
-      </div></div></div>
-    </li>
-
-    <li data-open="false" data-type="classic" data-priority="2">
-      <button class="art-toggle" data-target="a3">
-        <div class="art-head"><span class="mark">＋</span></div>
-        <div class="art-meta"><span class="type-tag classic">CLASSIC 2011</span><span class="journal">Gastroenterology</span><span>オルガノイド技術の確立</span><span>PMID 21889923</span></div>
-        <div class="art-conclusion">大腸や大腸癌の組織を培養皿で半永久的に増やす技術が確立、消化器研究の道具箱が一変</div>
-        <p class="art-stat">Wnt3A添加でマウス大腸クリプトが無限増殖。ヒト大腸・小腸・大腸癌・バレット食道上皮も長期培養に成功。</p>
-        <p class="art-title">（原題和訳：ヒト大腸・腺腫・腺癌およびバレット上皮由来上皮オルガノイドの長期増殖）</p>
-      </button>
-      <div class="art-detail" id="a3"><div class="art-detail-inner"><div class="art-body">
-        <h4>日本語全文訳</h4>
-        <p><b>背景：</b>以前にマウス小腸由来の単一クリプトまたは幹細胞を長期間増殖させる培養条件を確立していた。増殖するクリプトは複数回のクリプト分裂を起こし、同時に全ての分化細胞型を含む絨毛様の上皮領域を形成する。この培養条件をマウス大腸およびヒト小腸・大腸由来の類似した上皮オルガノイドの増殖に応用した。
-
-<b>方法：</b>マウス小腸の培養システムを基に、マウスおよびヒト大腸の培養システムを最適化した。
-
-<b>結果：</b>マウス大腸クリプトへの増殖因子の組み合わせにWnt3Aを追加することで、無限増殖が可能になった。ヒト小腸・大腸組織の長期培養には、ニコチンアミドに加え、Alk阻害薬およびp38阻害薬の低分子化合物が必要だった。この培養システムにより、マウスのApc欠損腺腫、ヒト大腸癌細胞、バレット食道領域由来のヒト化生上皮の増殖も可能になった。
-
-<b>結論：</b>ヒト消化管由来の感染・炎症・腫瘍組織を研究するために利用可能な技術を開発した。このツールは、腸管上皮のex vivo増殖を通じた再生医療への応用が期待される。これらの培養を用いた検討から、成体幹細胞のex vivoでの増殖能には（ヘイフリック限界のような）本質的な制限がないことが示唆された。</p>
-        <p style="font-size:0.82rem;color:var(--ink-faint);border-top:1px solid var(--line);padding-top:0.7rem;">本論文が確立したオルガノイド培養技術は、消化器領域の基礎研究・創薬・個別化医療（患者由来オルガノイドを用いた薬剤感受性試験など）に広く応用され、現在の消化器研究の標準的手法の一つとなっている。</p>
-        <div class="art-original">原題：Long-term expansion of epithelial organoids from human colon, adenoma, adenocarcinoma, and Barrett's epithelium. — <a href="https://pubmed.ncbi.nlm.nih.gov/21889923/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
-      </div></div></div>
-    </li>
-
-    <li data-open="false" data-type="classic" data-priority="3">
-      <button class="art-toggle" data-target="a4">
-        <div class="art-head"><span class="mark">＋</span></div>
-        <div class="art-meta"><span class="type-tag classic">CLASSIC 2017</span><span class="journal">Gut</span><span>GLOBOCANデータ解析</span><span>PMID 26818619</span></div>
-        <div class="art-conclusion">大腸癌の世界的な負担は今なお拡大、発展途上国ほど増加が急速</div>
-        <p class="art-stat">大腸癌の罹患・死亡率は地域間で<b>最大10倍</b>の差。2030年までに新規症例220万人超・死亡110万人超へ60%増加すると予測。</p>
-        <p class="art-title">（原題和訳：大腸癌罹患率・死亡率の世界的なパターンと動向）</p>
-      </button>
-      <div class="art-detail" id="a4"><div class="art-detail-inner"><div class="art-body">
-        <h4>日本語全文訳</h4>
-        <p><b>背景：</b>世界の大腸癌（CRC）負担は、2030年までに60%増加し、新規症例220万人超・死亡110万人超に達すると予測されている。本研究では、近年のCRC罹患率・死亡率のパターンと動向を記述し、がん予防・診療によって負担を軽減できる可能性と関連づけて論じることを目的とした。
-
-<b>方法：</b>GLOBOCANデータベースから2012年の性別CRC罹患率・死亡率の推定値を抽出した。Cancer Incidence in Five Continents（CI5）第I〜X巻およびWHO死亡データベースのデータを用いて、37か国の経時的パターンを評価した。動向はjoinpoint回帰による年間変化率で評価し、人間開発指数との関連で考察した。
-
-<b>結果：</b>CRCの罹患率・死亡率は世界的に最大10倍の差があり、人間開発水準に応じた明確な傾斜がみられ、開発途上国における格差拡大と負担増加を示唆していた。多くの低・中所得国ではCRC罹患率・死亡率が依然として急速に上昇している一方、高度に発展した国々では横ばいまたは低下傾向にあるものの、その水準は依然として世界で最も高い部類にとどまっていた。
-
-<b>結論：</b>CRC罹患率・死亡率のパターンと動向は現在の人間開発水準と相関しており、その経時的変化は西洋的な生活様式の普及を反映している可能性がある。今後数十年でCRC患者数を減らすためには、低所得国では一次予防、高所得国では早期発見を組み合わせた、資源状況に応じた対策が必要である。</p>
-        <p style="font-size:0.82rem;color:var(--ink-faint);border-top:1px solid var(--line);padding-top:0.7rem;">GLOBOCANデータを用いて大腸癌の世界的な罹患・死亡動向を体系的に示した代表的な疫学論文であり、大腸癌対策の国際的な政策立案の基礎資料として広く引用されている。</p>
-        <div class="art-original">原題：Global patterns and trends in colorectal cancer incidence and mortality. — <a href="https://pubmed.ncbi.nlm.nih.gov/26818619/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
-      </div></div></div>
-    </li>
-
-    <li data-open="false" data-type="classic" data-priority="4">
-      <button class="art-toggle" data-target="a5">
-        <div class="art-head"><span class="mark">＋</span></div>
-        <div class="art-meta"><span class="type-tag classic">CLASSIC 2018</span><span class="journal">Hepatology</span><span>疾病負荷予測モデル</span><span>PMID 28802062</span></div>
-        <div class="art-conclusion">脂肪肝は"静かな流行"、2030年には米国成人の3人に1人がNAFLDに</div>
-        <p class="art-stat">NAFLD患者数 <b>2015年8310万人→2030年1億900万人</b>（21%増）。肝関連死亡は178%増の年7万8300人と推計。</p>
-        <p class="art-title">（原題和訳：非アルコール性脂肪肝疾患の流行モデルが示す疾病負担の指数関数的増加）</p>
-      </button>
-      <div class="art-detail" id="a5"><div class="art-detail-inner"><div class="art-body">
-        <h4>日本語全文訳</h4>
-        <p><b>背景：</b>非アルコール性脂肪肝疾患（NAFLD）とそれに起因する非アルコール性脂肪肝炎（NASH）は米国で高い有病率を示し、肝硬変・肝細胞癌（HCC）の原因として増加しつつあり、肝移植適応としても増えている。マルコフモデルを用いてNAFLDの疾患進行を予測した。
-
-<b>方法：</b>NAFLDの発生率は、成人の肥満・2型糖尿病有病率の過去の推移と将来予測に基づいて設定した。前提条件は既存文献から導き、NAFLD関連HCCの発生率について全国サーベイランスデータを用いて妥当性を検証した。2030年までのNAFLD関連肝硬変・進行肝疾患・肝関連死亡率の変化予測を定量化した。
-
-<b>結果：</b>NAFLD有病例数は2015年の8310万人から2030年には1億900万人へ21%増加し、NASH有病例数は1652万人から2700万人へ63%増加すると予測された。成人人口（15歳以上）に占めるNAFLD全体の有病率は2030年に33.5%に達し、NAFLD患者の年齢中央値は2015〜2030年で50歳から55歳へ上昇すると予測された。2015年時点でNAFLD症例の約20%がNASHに分類されていたが、疾患進行と高齢化を反映し2030年には27%に増加すると見込まれた。非代償性肝硬変の発生数は2030年までに168%増の105,430例、HCCの発生数は137%増の12,240例に増加し、肝関連死亡は178%増の推計78,300人に達すると予測された。2015〜2030年の間に、約80万人の過剰な肝関連死亡が生じると予測された。
-
-<b>結論：</b>成人の肥満・糖尿病の高い有病率と高齢化の継続により、米国におけるNAFLD関連の肝疾患・死亡は今後増加する。NAFLD症例の増加を抑制するための対策と治療選択肢の確立が、疾病負担を軽減するために必要である（Hepatology 2018;67:123-133）。</p>
-        <p style="font-size:0.82rem;color:var(--ink-faint);border-top:1px solid var(--line);padding-top:0.7rem;">肥満・糖尿病の増加を背景にNAFLDが今後急増することを定量的に示した先駆的なモデリング研究であり、その後のNAFLD/NASH治療薬開発や公衆衛生対策の重要性を裏付ける根拠として繰り返し引用されている。</p>
-        <div class="art-original">原題：Modeling the epidemic of nonalcoholic fatty liver disease demonstrates an exponential increase in burden of disease. — <a href="https://pubmed.ncbi.nlm.nih.gov/28802062/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
-      </div></div></div>
-    </li>
-
-  </ul>
+  <ul class="articles" id="archiveArticles"></ul>
+  <button class="load-more" id="loadMoreBtn" type="button" style="display:none;">もっと見る</button>
+  <p class="empty-state" id="emptyState" style="display:none;">該当する論文が見つかりませんでした。</p>
 
   <footer>
     出典：PubMed（NCBI E-utilities）・Europe PMC（クラシック論文の被引用数ソートに使用）。IF（インパクトファクター）は参考値であり年度により変動する。要約・翻訳・「結論」の見出しは生成AIによるもので、臨床判断には必ず原文をご確認ください。
@@ -541,90 +454,181 @@
 </div>
 
 <script>
-  document.querySelectorAll('.art-toggle').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var li = btn.closest('li');
-      var isOpen = li.getAttribute('data-open') === 'true';
-      li.setAttribute('data-open', isOpen ? 'false' : 'true');
+(function(){
+  var todayList = document.getElementById('todayArticles');
+  var todayCount = document.getElementById('todayCount');
+  var archiveList = document.getElementById('archiveArticles');
+  var archiveSummary = document.getElementById('archiveSummary');
+  var searchInput = document.getElementById('searchInput');
+  var loadMoreBtn = document.getElementById('loadMoreBtn');
+  var emptyState = document.getElementById('emptyState');
+  var latestDateEl = document.getElementById('latestDate');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.filter-chip'));
+
+  var PAGE_SIZE = 10;
+  var visibleCount = PAGE_SIZE;
+  var currentFilter = 'all';
+  var allArticles = [];
+
+  function escapeHtml(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function formatDateJa(iso){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    if(!m) return iso || '';
+    return m[1] + '年' + parseInt(m[2],10) + '月' + parseInt(m[3],10) + '日';
+  }
+
+  function metaSpans(a){
+    var badge = a.type === 'classic'
+      ? '<span class="type-tag classic">CLASSIC ' + escapeHtml(a.year) + '</span>'
+      : '<span class="type-tag recent">RECENT</span>';
+    var parts = [badge, '<span class="journal">' + escapeHtml(a.journal) + '</span>'];
+    if(a.type === 'recent' && a.ifTag){ parts.push('<span class="if-tag">' + escapeHtml(a.ifTag) + '</span>'); }
+    if(a.metaNote){ parts.push('<span>' + escapeHtml(a.metaNote) + '</span>'); }
+    parts.push('<span>PMID ' + escapeHtml(a.pmid) + '</span>');
+    return parts.join('');
+  }
+
+  function cardHtml(a, uid){
+    var impactHtml = a.impactNote
+      ? '<p class="art-impact-note">' + a.impactNote + '</p>'
+      : '';
+    return (
+      '<li data-open="false">' +
+        '<button class="art-toggle" data-target="' + uid + '">' +
+          '<div class="art-head"><span class="mark">＋</span></div>' +
+          '<div class="art-meta">' + metaSpans(a) + '</div>' +
+          '<div class="art-conclusion">' + escapeHtml(a.conclusion) + '</div>' +
+          '<p class="art-stat">' + a.stat + '</p>' +
+          '<p class="art-title">（原題和訳：' + escapeHtml(a.titleJa) + '）</p>' +
+        '</button>' +
+        '<div class="art-detail" id="' + uid + '"><div class="art-detail-inner"><div class="art-body">' +
+          '<h4>日本語全文訳</h4>' +
+          '<p>' + a.bodyJa + '</p>' +
+          impactHtml +
+          '<div class="art-original">原題：' + escapeHtml(a.titleOriginal) + ' — ' +
+            '<a href="' + a.pubmedUrl + '" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>' +
+        '</div></div></div>' +
+      '</li>'
+    );
+  }
+
+  function bindToggles(container){
+    container.querySelectorAll('.art-toggle').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var li = btn.closest('li');
+        var isOpen = li.getAttribute('data-open') === 'true';
+        li.setAttribute('data-open', isOpen ? 'false' : 'true');
+      });
+    });
+  }
+
+  function searchText(a){
+    if(a._search) return a._search;
+    var plain = function(s){ return String(s || '').replace(/<[^>]+>/g,''); };
+    a._search = [a.conclusion, a.titleJa, a.titleOriginal, a.journal, plain(a.stat), plain(a.bodyJa), plain(a.impactNote)]
+      .join(' ').toLowerCase();
+    return a._search;
+  }
+
+  function renderToday(){
+    if(!allArticles.length) return;
+    var latestSeq = Math.max.apply(null, allArticles.map(function(a){ return a.runSeq; }));
+    var todays = allArticles.filter(function(a){ return a.runSeq === latestSeq; });
+    var latest = todays.reduce(function(max, a){ return (!max || a.runDate > max) ? a.runDate : max; }, null);
+    latestDateEl.textContent = formatDateJa(latest);
+    todayCount.textContent = todays.length ? ('(' + todays.length + '本)') : '';
+    todayList.innerHTML = todays.map(function(a){ return cardHtml(a, 'today-' + a.pmid); }).join('');
+    bindToggles(todayList);
+  }
+
+  function filteredSorted(){
+    var q = searchInput.value.trim().toLowerCase();
+    return allArticles.slice().reverse().filter(function(a){
+      if(currentFilter !== 'all' && a.type !== currentFilter) return false;
+      if(q && searchText(a).indexOf(q) === -1) return false;
+      return true;
+    });
+  }
+
+  function renderArchive(){
+    var list = filteredSorted();
+    var shown = list.slice(0, visibleCount);
+
+    if(!shown.length){
+      archiveList.innerHTML = '';
+      emptyState.style.display = 'block';
+      loadMoreBtn.style.display = 'none';
+    } else {
+      emptyState.style.display = 'none';
+      var html = '';
+      var lastDate = null;
+      shown.forEach(function(a){
+        if(a.runDate !== lastDate){
+          html += '<li class="date-heading" style="list-style:none;border:none;">' + formatDateJa(a.runDate) + '</li>';
+          lastDate = a.runDate;
+        }
+        html += cardHtml(a, 'arc-' + a.pmid);
+      });
+      archiveList.innerHTML = html;
+      bindToggles(archiveList);
+      loadMoreBtn.style.display = (shown.length < list.length) ? 'block' : 'none';
+    }
+    archiveSummary.textContent = '全' + allArticles.length + '本中、条件に合う ' + list.length + '本を表示（' + shown.length + '本表示中）';
+  }
+
+  searchInput.addEventListener('input', function(){
+    visibleCount = PAGE_SIZE;
+    renderArchive();
+  });
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.setAttribute('aria-pressed', 'false'); });
+      chip.setAttribute('aria-pressed', 'true');
+      currentFilter = chip.dataset.filter;
+      visibleCount = PAGE_SIZE;
+      renderArchive();
     });
   });
+  loadMoreBtn.addEventListener('click', function(){
+    visibleCount += PAGE_SIZE;
+    renderArchive();
+  });
 
-  // ---- 表示設定（クラシック / 最新の比率）----
-  (function(){
-    var STORAGE_KEY = 'gi-digest-settings-v1';
-    var countSel = document.getElementById('countSel');
-    var ratioRange = document.getElementById('ratioRange');
-    var ratioVal = document.getElementById('ratioVal');
-    var summary = document.getElementById('settingsSummary');
-    var tocLabel = document.getElementById('tocLabel');
-    var items = Array.prototype.slice.call(document.querySelectorAll('#articles li'));
-
-    var classicPool = items.filter(function(li){ return li.dataset.type === 'classic'; })
-      .sort(function(a,b){ return (+a.dataset.priority) - (+b.dataset.priority); });
-    var recentPool = items.filter(function(li){ return li.dataset.type === 'recent'; })
-      .sort(function(a,b){ return (+a.dataset.priority) - (+b.dataset.priority); });
-
-    function loadSettings(){
-      try{
-        var raw = localStorage.getItem(STORAGE_KEY);
-        if(raw) return JSON.parse(raw);
-      }catch(e){}
-      return { count: 5, ratio: 80 };
-    }
-    function saveSettings(s){
-      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){}
-    }
-
-    function applySettings(){
-      var count = parseInt(countSel.value, 10);
-      var ratio = parseInt(ratioRange.value, 10);
-      ratioVal.textContent = ratio + '%';
-
-      var classicTarget = Math.round(count * ratio / 100);
-      var classicShown = Math.min(classicTarget, classicPool.length);
-      var recentShown = Math.min(count - classicShown, recentPool.length);
-      // 片方の在庫が尽きたら、もう片方で残り枠を埋める
-      if(classicShown + recentShown < count){
-        var extraClassic = Math.min(classicPool.length - classicShown, count - classicShown - recentShown);
-        classicShown += extraClassic;
-      }
-
-      items.forEach(function(li){ li.dataset.shown = 'false'; });
-      classicPool.slice(0, classicShown).forEach(function(li){ li.dataset.shown = 'true'; });
-      recentPool.slice(0, recentShown).forEach(function(li){ li.dataset.shown = 'true'; });
-
-      summary.innerHTML = '表示中：クラシック論文 <b>' + classicShown + '本</b>／最新の注目論文 <b>' + recentShown + '本</b>';
-      tocLabel.textContent = '本日の' + (classicShown + recentShown) + '本（インパクトファクター優先選定）';
-
-      saveSettings({ count: count, ratio: ratio });
-    }
-
-    var initial = loadSettings();
-    countSel.value = String(initial.count);
-    ratioRange.value = String(initial.ratio);
-    countSel.addEventListener('change', applySettings);
-    ratioRange.addEventListener('input', applySettings);
-    applySettings();
-  })();
-
-  // ---- ホーム画面に追加バナー（iOS Safariでのみ、まだ追加していない場合に表示）----
-  (function(){
-    var DISMISS_KEY = 'gi-digest-a2hs-dismissed';
-    var banner = document.getElementById('a2hs');
-    var closeBtn = document.getElementById('a2hsClose');
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS対策
-    var isStandalone = ('standalone' in navigator && navigator.standalone) ||
-      window.matchMedia('(display-mode: standalone)').matches;
-    var dismissed = false;
-    try{ dismissed = localStorage.getItem(DISMISS_KEY) === '1'; }catch(e){}
-
-    if(isIOS && !isStandalone && !dismissed){
-      banner.classList.add('is-visible');
-    }
-    closeBtn.addEventListener('click', function(){
-      banner.classList.remove('is-visible');
-      try{ localStorage.setItem(DISMISS_KEY, '1'); }catch(e){}
+  fetch('articles.json', { cache: 'no-store' })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      allArticles = data;
+      renderToday();
+      renderArchive();
+    })
+    .catch(function(err){
+      todayList.innerHTML = '<li class="empty-state" style="list-style:none;border:none;">論文データの読み込みに失敗しました。しばらくしてから再度お試しください。</li>';
+      console.error(err);
     });
-  })();
+})();
+
+// ---- ホーム画面に追加バナー（iOS Safariでのみ、まだ追加していない場合に表示）----
+(function(){
+  var DISMISS_KEY = 'gi-digest-a2hs-dismissed';
+  var banner = document.getElementById('a2hs');
+  var closeBtn = document.getElementById('a2hsClose');
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var isStandalone = ('standalone' in navigator && navigator.standalone) ||
+    window.matchMedia('(display-mode: standalone)').matches;
+  var dismissed = false;
+  try{ dismissed = localStorage.getItem(DISMISS_KEY) === '1'; }catch(e){}
+
+  if(isIOS && !isStandalone && !dismissed){
+    banner.classList.add('is-visible');
+  }
+  closeBtn.addEventListener('click', function(){
+    banner.classList.remove('is-visible');
+    try{ localStorage.setItem(DISMISS_KEY, '1'); }catch(e){}
+  });
+})();
 </script>
