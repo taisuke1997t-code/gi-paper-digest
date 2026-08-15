@@ -99,6 +99,77 @@
   }
   .note strong{ color:var(--ink); }
 
+  /* ---- settings panel ---- */
+  .settings{
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:1rem 1.15rem 1.1rem;
+    margin:0 0 2.25rem;
+    background:var(--surface);
+  }
+  .settings-head{
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    font-family:var(--mono);
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:0.9rem;
+  }
+  .settings-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0.9rem;
+  }
+  @media (min-width:480px){
+    .settings-grid{ grid-template-columns:auto 1fr; align-items:center; }
+  }
+  .settings-row label{
+    display:block;
+    font-size:0.82rem;
+    color:var(--ink-muted);
+    margin-bottom:0.35rem;
+  }
+  .settings-row label b{ color:var(--ink); font-variant-numeric:tabular-nums; }
+  .settings select{
+    font-family:var(--sans);
+    font-size:0.86rem;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:0.35rem 0.5rem;
+  }
+  .settings input[type="range"]{
+    width:100%;
+    accent-color:var(--accent);
+  }
+  .settings-scale{
+    display:flex;
+    justify-content:space-between;
+    font-family:var(--mono);
+    font-size:0.65rem;
+    color:var(--ink-faint);
+    margin-top:0.25rem;
+  }
+  .settings-summary{
+    margin:1rem 0 0;
+    padding-top:0.85rem;
+    border-top:1px solid var(--line);
+    font-size:0.88rem;
+    color:var(--ink);
+    font-weight:600;
+  }
+  .settings-summary b{ color:var(--accent); }
+  .settings-note{
+    margin:0.4rem 0 0;
+    font-size:0.76rem;
+    line-height:1.6;
+    color:var(--ink-faint);
+  }
+
   /* ---- article list ---- */
   .toc-label{
     font-family:var(--mono);
@@ -203,6 +274,18 @@
   }
   li[data-open="true"] .art-detail{ grid-template-rows:1fr; }
   .art-detail-inner{ overflow:hidden; }
+  .articles li[data-shown="false"]{ display:none; }
+
+  .type-tag{
+    font-family:var(--mono);
+    font-size:0.68rem;
+    letter-spacing:0.02em;
+    font-weight:600;
+    border-radius:3px;
+    padding:0.08rem 0.4rem;
+  }
+  .type-tag.classic{ background:var(--ink); color:var(--paper); }
+  .type-tag.recent{ background:var(--accent-soft); color:var(--accent); }
 
   .art-body{
     margin:0 0.25rem 1.4rem 1.5rem;
@@ -260,22 +343,44 @@
     <h1>消化器内科ダイジェスト</h1>
     <div class="sub">
       <span><b>2026年8月15日</b>号</span>
-      <span>選定：NEJM / JAMA / Lancet Gastroenterology &amp; Hepatology を優先</span>
+      <span>クラシックの名論文 × 最新の注目論文（IF上位誌を優先）</span>
     </div>
   </div>
 
   <p class="note">
-    <strong>これはデモです。</strong> 直近30日にPubMedへ掲載された消化器内科関連論文から、まずインパクトファクターの高い総合誌・専門誌（NEJM・JAMA・Lancet Gastroenterology &amp; Hepatologyなど）を優先して候補を絞り込み、その中から学会への影響が大きいもの（第3相RCT・大規模レビュー・新規治療の第2相試験など）5本を選び、その場で日本語要約・全文訳を作成しました。各カードは<strong>結論を先頭に大きく表示</strong>し、論文タイトルはカッコ書きで小さく添える形にしています。実運用では毎晩ローカルPCが自動でこの一覧を更新します。カードをタップすると全文訳が開きます。
+    <strong>これはデモです。</strong> 新着論文だけでなく、<strong>後世に大きな影響を与えた歴史的な名論文（H.ピロリ発見、C型肝炎ウイルス発見など）</strong>もインパクトファクターの高い誌から選び、直近の注目論文と組み合わせて表示しています。各カードは<strong>結論を先頭に大きく表示</strong>し、論文タイトルはカッコ書きで小さく添える形にしています。下の「表示設定」で、クラシック論文と最新論文の比率をご自身で調整できます。カードをタップすると全文訳が開きます。実運用では毎晩ローカルPCが自動でこの一覧を更新します。
   </p>
 
-  <p class="toc-label">本日の5本（インパクトファクター優先選定）</p>
+  <div class="settings">
+    <div class="settings-head">⚙ 表示設定</div>
+    <div class="settings-grid">
+      <div class="settings-row">
+        <label for="countSel">表示件数</label>
+        <select id="countSel">
+          <option value="3">3本</option>
+          <option value="5" selected>5本</option>
+          <option value="7">7本</option>
+          <option value="9">9本</option>
+        </select>
+      </div>
+      <div class="settings-row">
+        <label for="ratioRange">クラシック論文（歴史的名論文）の割合：<b id="ratioVal">80%</b></label>
+        <input type="range" id="ratioRange" min="0" max="100" step="10" value="80">
+        <div class="settings-scale"><span>最新のみ</span><span>半々</span><span>クラシックのみ</span></div>
+      </div>
+    </div>
+    <p class="settings-summary" id="settingsSummary">表示中：クラシック論文 <b>4本</b>／最新の注目論文 <b>1本</b></p>
+    <p class="settings-note">この設定はこの端末（ブラウザ）に保存され、次回訪問時も引き継がれます。毎日の自動収集も、同じ比率をデフォルトとして論文を選びます。</p>
+  </div>
+
+  <p class="toc-label" id="tocLabel">本日の5本（インパクトファクター優先選定）</p>
 
   <ul class="articles" id="articles">
 
-    <li data-open="false">
+    <li data-open="false" data-type="recent" data-priority="1">
       <button class="art-toggle" data-target="a1">
         <div class="art-head"><span class="mark">＋</span></div>
-        <div class="art-meta"><span class="journal">N Engl J Med</span><span class="if-tag">IF≈96</span><span>2026-07-23</span><span>PMID 42223072</span></div>
+        <div class="art-meta"><span class="type-tag recent">RECENT</span><span class="journal">N Engl J Med</span><span class="if-tag">IF≈96</span><span>2026-07-23</span><span>PMID 42223072</span></div>
         <div class="art-conclusion">既治療の転移性膵臓癌、Daraxonrasibが生存期間をほぼ倍に伸ばす</div>
         <p class="art-stat">全生存期間中央値 <b>13.2か月 vs 6.6か月</b>（ハザード比0.40、P&lt;0.001）。第3相国際RCT・500人規模。</p>
         <p class="art-title">（原題和訳：既治療の転移性膵臓癌に対するDaraxonrasibと化学療法の比較）</p>
@@ -293,10 +398,10 @@
       </div></div></div>
     </li>
 
-    <li data-open="false">
+    <li data-open="false" data-type="recent" data-priority="3">
       <button class="art-toggle" data-target="a2">
         <div class="art-head"><span class="mark">＋</span></div>
-        <div class="art-meta"><span class="journal">JAMA</span><span class="if-tag">IF≈63</span><span>2026-08-04</span><span>PMID 42406571</span></div>
+        <div class="art-meta"><span class="type-tag recent">RECENT</span><span class="journal">JAMA</span><span class="if-tag">IF≈63</span><span>2026-08-04</span><span>PMID 42406571</span></div>
         <div class="art-conclusion">アルコール性肝疾患は"断酒"が治療の中心、重症例は移植も検討を</div>
         <p class="art-stat">米国のALD関連死亡率は<b>1999年6.7人→2022年12.5人</b>（10万人あたり）に増加。断酒で肝関連死リスク0.43倍に。</p>
         <p class="art-title">（原題和訳：アルコール関連肝疾患：レビュー）</p>
@@ -312,10 +417,10 @@
       </div></div></div>
     </li>
 
-    <li data-open="false">
+    <li data-open="false" data-type="recent" data-priority="2">
       <button class="art-toggle" data-target="a3">
         <div class="art-head"><span class="mark">＋</span></div>
-        <div class="art-meta"><span class="journal">Lancet Gastroenterol Hepatol</span><span class="if-tag">IF≈35</span><span>2026-09号</span><span>PMID 42462750</span></div>
+        <div class="art-meta"><span class="type-tag recent">RECENT</span><span class="journal">Lancet Gastroenterol Hepatol</span><span class="if-tag">IF≈35</span><span>2026-09号</span><span>PMID 42462750</span></div>
         <div class="art-conclusion">中等症〜重症の潰瘍性大腸炎、新規TL1A抗体duvakitugが寛解導入に有効</div>
         <p class="art-stat">12週寛解率 <b>900mg群48% vs プラセボ20%</b>。優越性の事後確率0.99超。安全性上の懸念なし。</p>
         <p class="art-title">（原題和訳：潰瘍性大腸炎患者におけるduvakitugの有効性と安全性（RELIEVE UCCD）：第2b相RCT）</p>
@@ -333,10 +438,10 @@
       </div></div></div>
     </li>
 
-    <li data-open="false">
+    <li data-open="false" data-type="recent" data-priority="4">
       <button class="art-toggle" data-target="a4">
         <div class="art-head"><span class="mark">＋</span></div>
-        <div class="art-meta"><span class="journal">Lancet Gastroenterol Hepatol</span><span class="if-tag">IF≈35</span><span>2026-08号</span><span>PMID 42341804</span></div>
+        <div class="art-meta"><span class="type-tag recent">RECENT</span><span class="journal">Lancet Gastroenterol Hepatol</span><span class="if-tag">IF≈35</span><span>2026-08号</span><span>PMID 42341804</span></div>
         <div class="art-conclusion">治療薬のなかった好酸球性胃炎、デュピルマブが組織学的改善で好成績</div>
         <p class="art-stat">胃好酸球数の相対変化 <b>デュピルマブ群-50% vs プラセボ群-4%</b>（p&lt;0.0001）。第2相概念実証試験。</p>
         <p class="art-title">（原題和訳：好酸球性胃炎患者に対するデュピルマブとプラセボの比較（DEGAS）：第2相RCT）</p>
@@ -354,10 +459,10 @@
       </div></div></div>
     </li>
 
-    <li data-open="false">
+    <li data-open="false" data-type="recent" data-priority="5">
       <button class="art-toggle" data-target="a5">
         <div class="art-head"><span class="mark">＋</span></div>
-        <div class="art-meta"><span class="journal">Lancet Gastroenterol Hepatol</span><span class="if-tag">IF≈35</span><span>2026-08号</span><span>PMID 42330996</span></div>
+        <div class="art-meta"><span class="type-tag recent">RECENT</span><span class="journal">Lancet Gastroenterol Hepatol</span><span class="if-tag">IF≈35</span><span>2026-08号</span><span>PMID 42330996</span></div>
         <div class="art-conclusion">未治療の切除不能肝細胞癌、イピリムマブ上乗せに追加ベネフィットなし</div>
         <p class="art-stat">24週時点の奏効率 <b>3剤群30% vs 2剤群27%</b>で有意差なし。第3相への移行は見送り（陰性結果）。</p>
         <p class="art-title">（原題和訳：進行肝細胞癌に対するアテゾリズマブ＋ベバシズマブへのイピリムマブ追加（TRIPLET-HCC）：第2-3相試験・第2相結果）</p>
@@ -375,10 +480,79 @@
       </div></div></div>
     </li>
 
+    <li data-open="false" data-type="classic" data-priority="1">
+      <button class="art-toggle" data-target="a6">
+        <div class="art-head"><span class="mark">＋</span></div>
+        <div class="art-meta"><span class="type-tag classic">CLASSIC 1984</span><span class="journal">Lancet</span><span>2005年ノーベル生理学・医学賞</span><span>PMID 6145023</span></div>
+        <div class="art-conclusion">胃炎・消化性潰瘍の正体は"らせん菌"だった——H.ピロリ発見の原点論文</div>
+        <p class="art-stat">内視鏡患者100人中<b>58人</b>の胃粘膜から新種のらせん状細菌を検出。慢性胃炎・十二指腸潰瘍のほぼ全例に存在。</p>
+        <p class="art-title">（原題和訳：胃炎および消化性潰瘍患者の胃内に見出された未同定のらせん状桿菌）</p>
+      </button>
+      <div class="art-detail" id="a6"><div class="art-detail-inner"><div class="art-body">
+        <h4>日本語全文訳</h4>
+        <p>内視鏡検査のために来院した連続100人の同意患者から、健常に見える胃前庭部粘膜の生検を採取した。このうち58人の検体でらせん状または湾曲した桿菌が確認された。うち11例の生検から培養された菌はグラム陰性・べん毛を有し微好気性で、Campylobacter属に近縁の新種と考えられた。この細菌は、活動性慢性胃炎、十二指腸潰瘍、胃潰瘍の患者のほぼ全例に存在しており、これらの疾患の病因における重要な因子である可能性が示唆された。</p>
+        <p style="font-size:0.82rem;color:var(--ink-faint);border-top:1px solid var(--line);padding-top:0.7rem;">のちに著者マーシャルは自らこの菌（Helicobacter pylori）を飲んで急性胃炎を発症させる人体実験を行い、感染と胃炎の因果関係を証明した。この一連の研究により、マーシャルとウォレンは2005年のノーベル生理学・医学賞を受賞している。</p>
+        <div class="art-original">原題：Unidentified curved bacilli in the stomach of patients with gastritis and peptic ulceration. — <a href="https://pubmed.ncbi.nlm.nih.gov/6145023/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+      </div></div></div>
+    </li>
+
+    <li data-open="false" data-type="classic" data-priority="2">
+      <button class="art-toggle" data-target="a7">
+        <div class="art-head"><span class="mark">＋</span></div>
+        <div class="art-meta"><span class="type-tag classic">CLASSIC 1989</span><span class="journal">Science</span><span>C型肝炎ウイルス発見の基盤論文</span><span>PMID 2523562</span></div>
+        <div class="art-conclusion">正体不明だった「非A非B型肝炎」の正体はC型肝炎ウイルスだった</div>
+        <p class="art-stat">感染血漿由来のcDNAライブラリから、原因ウイルスの遺伝子断片を<b>世界で初めて単離</b>。</p>
+        <p class="art-title">（原題和訳：血液媒介性の非A非B型ウイルス肝炎ゲノム由来のcDNAクローンの単離）</p>
+      </button>
+      <div class="art-detail" id="a7"><div class="art-detail-inner"><div class="art-body">
+        <h4>日本語全文訳</h4>
+        <p>原因不明の非A非B型肝炎（NANBH）病原体を含む血漿からランダムプライミングによるcDNAライブラリを構築し、NANBHと診断された患者の血清でスクリーニングした。NANBH感染に特異的に関連する抗原をコードするcDNAクローンが単離された。このクローンは宿主DNA由来ではなく、NANBH感染に存在するRNA分子（少なくとも1万ヌクレオチドから成り、コードする抗原に対してプラス鎖である）に由来していた。これらのデータは、このクローンがNANBH病原体のゲノム由来であることを示しており、この病原体がトガウイルス科またはフラビウイルス科に類似している可能性と一致する。この分子的アプローチは、他の未同定感染性病原体の単離・同定にも大きな価値を持つと考えられる。</p>
+        <p style="font-size:0.82rem;color:var(--ink-faint);border-top:1px solid var(--line);padding-top:0.7rem;">本論文で同定されたウイルスはのちに「C型肝炎ウイルス（HCV）」と命名され、輸血後肝炎・肝硬変・肝細胞癌の主要な原因として今日の診療に直結している。</p>
+        <div class="art-original">原題：Isolation of a cDNA clone derived from a blood-borne non-A, non-B viral hepatitis genome. — <a href="https://pubmed.ncbi.nlm.nih.gov/2523562/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+      </div></div></div>
+    </li>
+
+    <li data-open="false" data-type="classic" data-priority="3">
+      <button class="art-toggle" data-target="a8">
+        <div class="art-head"><span class="mark">＋</span></div>
+        <div class="art-meta"><span class="type-tag classic">CLASSIC 1993</span><span class="journal">N Engl J Med</span><span>National Polyp Study</span><span>PMID 8247072</span></div>
+        <div class="art-conclusion">大腸ポリープを切除すれば大腸癌は防げる——それを証明した研究</div>
+        <p class="art-stat">1418人・平均5.9年の追跡で、大腸癌発生率を対照群比<b>76〜90%低下</b>（P&lt;0.001）。</p>
+        <p class="art-title">（原題和訳：大腸内視鏡下ポリープ切除による大腸癌予防——National Polyp Studyワークグループ）</p>
+      </button>
+      <div class="art-detail" id="a8"><div class="art-detail-inner"><div class="art-body">
+        <h4>日本語全文訳</h4>
+        <p><b>背景：</b>結腸・直腸の腺腫性ポリープを切除する現行の診療は、それが大腸癌を予防するという考えに基づいている。大腸内視鏡下ポリープ切除が大腸癌発生率を低下させるという仮説を検証するため、National Polyp Studyの結果を他の公表結果と比較して分析した。
+
+<b>方法：</b>対象は、完全な大腸内視鏡検査を受け、結腸または直腸の腺腫を1個以上切除された1418人。その後平均5.9年間、定期的に大腸内視鏡検査を受け、大腸癌の発生率を確認した。この発生率を、性・年齢・ポリープの大きさで調整した上で、ポリープを切除しなかった2つのコホートと一般人口登録の合計3つの対照群と比較した。
+
+<b>結果：</b>97%の患者が臨床的に追跡され（総追跡期間8401人年）、80%が予定された大腸内視鏡検査に1回以上応じた。無症状の早期大腸癌（悪性ポリープ）が大腸内視鏡検査で5例検出された（3年時点3例、6年時点1例、7年時点1例）。症候性の癌は検出されなかった。3つの対照群の発生率に基づく期待発生数はそれぞれ48.3、43.4、20.7であり、実際の発生数との比較で大腸癌発生率はそれぞれ90%、88%、76%低下していた（P&lt;0.001）。
+
+<b>結論：</b>大腸内視鏡下ポリープ切除により、大腸癌の発生率は期待値より低くなった。この結果は、大腸腺腫が腺癌へ進行するという見方、および大腸癌予防のために腺腫性ポリープを探索・切除する現行の診療を支持するものである。</p>
+        <div class="art-original">原題：Prevention of colorectal cancer by colonoscopic polypectomy. The National Polyp Study Workgroup. — <a href="https://pubmed.ncbi.nlm.nih.gov/8247072/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+      </div></div></div>
+    </li>
+
+    <li data-open="false" data-type="classic" data-priority="4">
+      <button class="art-toggle" data-target="a9">
+        <div class="art-head"><span class="mark">＋</span></div>
+        <div class="art-meta"><span class="type-tag classic">CLASSIC 1980</span><span class="journal">Mayo Clin Proc</span><span>「NASH」命名論文</span><span>PMID 7382552</span></div>
+        <div class="art-conclusion">NASH（非アルコール性脂肪肝炎）という病名は、この論文から始まった</div>
+        <p class="art-stat">原因不明の肝疾患患者<b>20例</b>の組織所見を報告——のちのNAFLD/NASH概念の起点。</p>
+        <p class="art-title">（原題和訳：非アルコール性脂肪肝炎：いまだ名前のなかった疾患についてのMayo Clinicでの経験）</p>
+      </button>
+      <div class="art-detail" id="a9"><div class="art-detail-inner"><div class="art-body">
+        <h4>日本語全文訳</h4>
+        <p>非アルコール性脂肪肝炎は、組織学的にアルコール性肝炎に酷似し、肝硬変へ進行しうるにもかかわらず、これまで十分に解明されておらず名前も付けられていなかった肝疾患である。原因不明の非アルコール性脂肪肝炎を有する患者20例の所見を報告する。生検標本は著明な脂肪変化に加え、小葉性肝炎の所見、混合性炎症細胞浸潤を伴う巣状壊死、そしてほとんどの例でマロリー小体を特徴としていた。ほとんどの標本で線維化の所見が認められ、3例の生検組織では肝硬変と診断された。本疾患は女性に多く見られた。患者の多くは中等度の肥満であり、糖尿病や胆石症など肥満関連疾患を有する例も多かった。肝腫大や軽度の肝機能異常が一般的な臨床所見であった。現時点で、有効な治療法は知られていない。</p>
+        <p style="font-size:0.82rem;color:var(--ink-faint);border-top:1px solid var(--line);padding-top:0.7rem;">本論文が「nonalcoholic steatohepatitis（NASH）」という名称を初めて提唱した論文とされ、現在のMASLD/MASH（旧NAFLD/NASH）領域の出発点として今なお引用され続けている。</p>
+        <div class="art-original">原題：Nonalcoholic steatohepatitis: Mayo Clinic experiences with a hitherto unnamed disease. — <a href="https://pubmed.ncbi.nlm.nih.gov/7382552/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+      </div></div></div>
+    </li>
+
   </ul>
 
   <footer>
-    出典：PubMed（NCBI E-utilities）。IF（インパクトファクター）は参考値であり年度により変動する。要約・翻訳・「結論」の見出しは生成AIによるもので、臨床判断には必ず原文をご確認ください。
+    出典：PubMed（NCBI E-utilities）。IF（インパクトファクター）は参考値であり年度により変動する。要約・翻訳・「結論」の見出しは生成AIによるもので、臨床判断には必ず原文をご確認ください。クラシック論文の選定は編集部（Claude）による恣意的なものであり、網羅的なものではありません。
   </footer>
 </div>
 
@@ -390,4 +564,62 @@
       li.setAttribute('data-open', isOpen ? 'false' : 'true');
     });
   });
+
+  // ---- 表示設定（クラシック / 最新の比率）----
+  (function(){
+    var STORAGE_KEY = 'gi-digest-settings-v1';
+    var countSel = document.getElementById('countSel');
+    var ratioRange = document.getElementById('ratioRange');
+    var ratioVal = document.getElementById('ratioVal');
+    var summary = document.getElementById('settingsSummary');
+    var tocLabel = document.getElementById('tocLabel');
+    var items = Array.prototype.slice.call(document.querySelectorAll('#articles li'));
+
+    var classicPool = items.filter(function(li){ return li.dataset.type === 'classic'; })
+      .sort(function(a,b){ return (+a.dataset.priority) - (+b.dataset.priority); });
+    var recentPool = items.filter(function(li){ return li.dataset.type === 'recent'; })
+      .sort(function(a,b){ return (+a.dataset.priority) - (+b.dataset.priority); });
+
+    function loadSettings(){
+      try{
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if(raw) return JSON.parse(raw);
+      }catch(e){}
+      return { count: 5, ratio: 80 };
+    }
+    function saveSettings(s){
+      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){}
+    }
+
+    function applySettings(){
+      var count = parseInt(countSel.value, 10);
+      var ratio = parseInt(ratioRange.value, 10);
+      ratioVal.textContent = ratio + '%';
+
+      var classicTarget = Math.round(count * ratio / 100);
+      var classicShown = Math.min(classicTarget, classicPool.length);
+      var recentShown = Math.min(count - classicShown, recentPool.length);
+      // 片方の在庫が尽きたら、もう片方で残り枠を埋める
+      if(classicShown + recentShown < count){
+        var extraClassic = Math.min(classicPool.length - classicShown, count - classicShown - recentShown);
+        classicShown += extraClassic;
+      }
+
+      items.forEach(function(li){ li.dataset.shown = 'false'; });
+      classicPool.slice(0, classicShown).forEach(function(li){ li.dataset.shown = 'true'; });
+      recentPool.slice(0, recentShown).forEach(function(li){ li.dataset.shown = 'true'; });
+
+      summary.innerHTML = '表示中：クラシック論文 <b>' + classicShown + '本</b>／最新の注目論文 <b>' + recentShown + '本</b>';
+      tocLabel.textContent = '本日の' + (classicShown + recentShown) + '本（インパクトファクター優先選定）';
+
+      saveSettings({ count: count, ratio: ratio });
+    }
+
+    var initial = loadSettings();
+    countSel.value = String(initial.count);
+    ratioRange.value = String(initial.ratio);
+    countSel.addEventListener('change', applySettings);
+    ratioRange.addEventListener('input', applySettings);
+    applySettings();
+  })();
 </script>
