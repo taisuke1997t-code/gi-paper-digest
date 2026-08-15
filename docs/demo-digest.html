@@ -1,0 +1,351 @@
+<title>消化器内科ダイジェスト</title>
+<style>
+  :root{
+    --paper:#eef2f0;
+    --surface:#ffffff;
+    --ink:#16231f;
+    --ink-muted:#56655f;
+    --ink-faint:#8a978f;
+    --accent:#0e6b5c;
+    --accent-soft:#dceae5;
+    --line:#d6ddd8;
+    --serif: "Iowan Old Style","Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+    --sans: "Hiragino Sans","Yu Gothic","Noto Sans JP","Segoe UI",sans-serif;
+    --mono: "Cascadia Code","SF Mono",ui-monospace,"Consolas",monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0b1613;
+      --surface:#12211d;
+      --ink:#e9efec;
+      --ink-muted:#93a39c;
+      --ink-faint:#5e6f68;
+      --accent:#47c7a6;
+      --accent-soft:#17332c;
+      --line:#23342e;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0b1613;
+    --surface:#12211d;
+    --ink:#e9efec;
+    --ink-muted:#93a39c;
+    --ink-faint:#5e6f68;
+    --accent:#47c7a6;
+    --accent-soft:#17332c;
+    --line:#23342e;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    max-width:680px;
+    margin:0 auto;
+    padding:2.5rem 1.25rem 5rem;
+  }
+
+  /* ---- masthead ---- */
+  .masthead{
+    display:flex;
+    flex-direction:column;
+    gap:0.5rem;
+    padding-bottom:1.25rem;
+    border-bottom:3px double var(--line);
+    margin-bottom:0.5rem;
+  }
+  .masthead .eyebrow{
+    font-family:var(--mono);
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  .masthead h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(1.9rem,6vw,2.5rem);
+    margin:0;
+    text-wrap:balance;
+    letter-spacing:0.01em;
+  }
+  .masthead .sub{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.4rem 1rem;
+    font-size:0.85rem;
+    color:var(--ink-muted);
+  }
+  .masthead .sub b{
+    color:var(--ink);
+    font-weight:600;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .note{
+    font-size:0.85rem;
+    line-height:1.7;
+    color:var(--ink-muted);
+    background:var(--accent-soft);
+    border-left:3px solid var(--accent);
+    padding:0.85rem 1rem;
+    border-radius:2px;
+    margin:1.5rem 0 2rem;
+  }
+  .note strong{ color:var(--ink); }
+
+  /* ---- article list ---- */
+  .toc-label{
+    font-family:var(--mono);
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 0.75rem;
+  }
+
+  ul.articles{
+    list-style:none;
+    margin:0;
+    padding:0;
+    border-top:1px solid var(--line);
+  }
+  .articles li{
+    border-bottom:1px solid var(--line);
+  }
+
+  .art-toggle{
+    all:unset;
+    display:block;
+    width:100%;
+    cursor:pointer;
+    padding:1.15rem 0.25rem;
+  }
+  .art-toggle:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+    border-radius:3px;
+  }
+  .art-head{
+    display:flex;
+    align-items:baseline;
+    gap:0.6rem;
+  }
+  .art-head .mark{
+    font-family:var(--mono);
+    color:var(--accent);
+    font-size:0.9rem;
+    flex:none;
+    transition:transform 0.15s ease;
+    transform-origin:center;
+  }
+  li[data-open="true"] .art-head .mark{ transform:rotate(45deg); }
+
+  .art-title{
+    font-family:var(--serif);
+    font-size:1.14rem;
+    font-weight:600;
+    line-height:1.5;
+    text-wrap:balance;
+  }
+  .art-meta{
+    margin:0.35rem 0 0 1.5rem;
+    font-family:var(--mono);
+    font-size:0.72rem;
+    color:var(--ink-faint);
+    letter-spacing:0.02em;
+    display:flex;
+    flex-wrap:wrap;
+    gap:0 0.9rem;
+  }
+  .art-meta .journal{ font-style:italic; color:var(--ink-muted); font-family:var(--serif); font-size:0.78rem; }
+
+  .art-teaser{
+    margin:0.55rem 0 0 1.5rem;
+    font-size:0.9rem;
+    line-height:1.75;
+    color:var(--ink-muted);
+    max-width:56ch;
+  }
+
+  .art-detail{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows 0.25s ease;
+  }
+  li[data-open="true"] .art-detail{ grid-template-rows:1fr; }
+  .art-detail-inner{ overflow:hidden; }
+
+  .art-body{
+    margin:0 0.25rem 1.4rem 1.5rem;
+    padding:1rem 1.1rem 1.1rem;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:6px;
+  }
+  .art-body h4{
+    font-family:var(--mono);
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 0.5rem;
+  }
+  .art-body p{
+    font-size:0.92rem;
+    line-height:1.85;
+    color:var(--ink);
+    margin:0 0 0.9rem;
+    white-space:pre-line;
+  }
+  .art-original{
+    font-size:0.78rem;
+    color:var(--ink-faint);
+    border-top:1px solid var(--line);
+    padding-top:0.8rem;
+    line-height:1.6;
+  }
+  .art-original a{
+    color:var(--accent);
+    text-decoration:none;
+    border-bottom:1px solid var(--accent-soft);
+  }
+  .art-original a:hover{ border-bottom-color:var(--accent); }
+
+  footer{
+    margin-top:3rem;
+    padding-top:1.25rem;
+    border-top:1px solid var(--line);
+    font-size:0.78rem;
+    color:var(--ink-faint);
+    line-height:1.8;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .art-detail, .art-head .mark{ transition:none; }
+  }
+</style>
+
+<div class="page">
+  <div class="masthead">
+    <div class="eyebrow">Daily GI Research Brief · プロトタイプ</div>
+    <h1>消化器内科ダイジェスト</h1>
+    <div class="sub">
+      <span><b>2026年8月15日</b>号</span>
+      <span>収録誌：Gastroenterology / Gut / Hepatology / Journal of Hepatology</span>
+    </div>
+  </div>
+
+  <p class="note">
+    <strong>これはデモです。</strong> 本日実際にPubMedへ問い合わせ、直近21日間に上記4誌へ掲載された論文から要約のある4本を取得し、その場で日本語要約・全文訳を作成しました。実運用では毎晩ローカルPCが自動でこの一覧を更新します。タイトルをタップすると全文訳が開きます。
+  </p>
+
+  <p class="toc-label">本日の4本</p>
+
+  <ul class="articles" id="articles">
+
+    <li data-open="false">
+      <button class="art-toggle" data-target="a1">
+        <div class="art-head"><span class="mark">＋</span>
+          <span class="art-title">過敏性腸症候群における食物繊維補充療法：RCTのシステマティックレビュー・メタ解析</span>
+        </div>
+        <div class="art-meta"><span class="journal">Gastroenterology</span><span>2026-08-14</span><span>PMID 42600900</span></div>
+        <p class="art-teaser">IBS患者1904人・RCT30件のメタ解析。繊維全体で反応率52% vs 44%、特にサイリウムで有効性が高かった。</p>
+      </button>
+      <div class="art-detail" id="a1"><div class="art-detail-inner"><div class="art-body">
+        <h4>日本語全文訳</h4>
+        <p><b>背景・目的：</b>食物繊維補充療法は過敏性腸症候群（IBS）に広く用いられ推奨されているが、最近のエビデンス統合は行われていなかった。本研究はランダム化比較試験（RCT）のシステマティックレビュー・メタ解析により、IBSに対する食物繊維補充療法の有効性を検討した。
+
+<b>方法：</b>MEDLINE、Embase、Web of Science、Cochrane Central Register of Controlled Trialsを各データベース開始から2026年4月9日まで検索した。IBS成人を対象に食物繊維補充療法と適切なプラセボ対照を比較したRCTを組み入れた。二値の臨床反応データはリスク比と95%信頼区間で要約した。本レビューはPROSPEROに事前登録された（CRD42024600758）。
+
+<b>結果：</b>検索により4008件の文献が同定され、IBS患者1904人を含む30件のRCTが適格とされた。最も多かった繊維の種類は小麦ふすま（7件）、サイリウム（6件）、イヌリン型フルクタン（5件）、β-ガラクトオリゴ糖（B-GOS、2件）で、2件のRCTは複数繊維の併用投与だった。臨床反応を報告した16件のRCT（n=1293）では、繊維群で52%、対照群で44%が反応した（リスク比1.21［95%CI 1.03-1.41］、P=0.02）。特にサイリウムで有益性が高かった（リスク比1.53［95%CI 1.06-2.19］）。消化器症状全体を報告した9件のRCT（n=497）では有意差はなかったが、B-GOSのみ症状改善が見られた。
+
+<b>結論：</b>食物繊維補充療法、特にサイリウムはIBSにおいて臨床反応をもたらす。今後のRCTはIBSサブタイプ別にアウトカムを報告することが望まれる。</p>
+        <div class="art-original">原題：Fiber supplementation in irritable bowel syndrome: a systematic review and meta-analysis of randomized controlled trials. — <a href="https://pubmed.ncbi.nlm.nih.gov/42600900/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+      </div></div></div>
+    </li>
+
+    <li data-open="false">
+      <button class="art-toggle" data-target="a2">
+        <div class="art-head"><span class="mark">＋</span>
+          <span class="art-title">肝再生CRISPRスクリーニングでE3リガーゼNEURL1Bが肝細胞分裂を制御することが判明</span>
+        </div>
+        <div class="art-meta"><span class="journal">Gastroenterology</span><span>2026-08-14</span><span>PMID 42600899</span></div>
+        <p class="art-teaser">生体内CRISPRiスクリーニングで、過剰な中心体を持つ肝細胞特有の紡錘極再編成機構を解明。肝再生・肝癌治療の新たな標的候補。</p>
+      </button>
+      <div class="art-detail" id="a2"><div class="art-detail-inner"><div class="art-body">
+        <h4>日本語全文訳</h4>
+        <p><b>背景・目的：</b>肝細胞の増殖は肝再生に必須である。肝細胞は過剰な中心体を有しており、多極紡錘体形成や有糸分裂の遷延を招きうる。肝細胞がこれらの課題を克服して効率的に再生する仕組みは不明であった。
+
+<b>方法：</b>再生中のマウス肝臓で高精度な生体内CRISPRiスクリーニングを実施し、細胞株の遺伝子必須性データと照合して肝細胞増殖に特異的な遺伝子を同定した。ノックアウトマウス、RNAシークエンシング、プロテオミクスで機序を検討した。
+
+<b>結果：</b>あまり研究されていないE3リガーゼNEURL1Bが、肝細胞分裂に特異的に必要であることが判明した。NEURL1Bを阻害すると肝細胞が肥大・多倍体化し、肝再増殖が障害され、肝癌への抵抗性が生じた。有糸分裂開始時、肝細胞はNUMA1が組織化する複数の微小管形成中心（MTOC）を持つが、NEURL1BはMTOCに局在してこれを不安定化させ（NUMA1を基質とする）、余分なMTOCの不活化と有糸分裂の進行を促す。ヒトの単核RNAシークエンシングでも同様の役割が支持された。
+
+<b>結論：</b>肝細胞が過剰な中心体を管理する独自の機構が明らかになり、NEURL1Bは肝再生・肝癌の新たな治療標的となりうる。</p>
+        <div class="art-original">原題：Liver regeneration CRISPR screen identifies E3 ligase NEURL1B regulates hepatocyte mitosis by destabilizing microtubule organizing centers. — <a href="https://pubmed.ncbi.nlm.nih.gov/42600899/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+      </div></div></div>
+    </li>
+
+    <li data-open="false">
+      <button class="art-toggle" data-target="a3">
+        <div class="art-head"><span class="mark">＋</span>
+          <span class="art-title">MASLDの2段階リスク層別化：シェアウェーブエラストグラフィはVCTEと同等の性能</span>
+        </div>
+        <div class="art-meta"><span class="journal">Hepatology</span><span>2026-08-14</span><span>PMID 42599911</span></div>
+        <p class="art-teaser">2817人のMASLD患者でSWEとVCTEを比較。AGA/EASLいずれのアルゴリズムでも肝関連イベント予測性能は同等だった。</p>
+      </button>
+      <div class="art-detail" id="a3"><div class="art-detail-inner"><div class="art-body">
+        <h4>日本語全文訳</h4>
+        <p><b>背景・目的：</b>2段階のMASLD（代謝機能障害関連脂肪性肝疾患）リスク層別化におけるシェアウェーブエラストグラフィ（SWE）の役割は明らかでない。米国肝臓病学会（AGA）・欧州肝臓学会（EASL）のアルゴリズムでSWEと振動制御式一過性エラストグラフィ（VCTE）を比較した。
+
+<b>方法・結果：</b>同一セッションでVCTEとSWEを受けたMASLD患者2817人を対象とした。主要評価項目は肝関連イベント（LRE）。AGA-SWEアルゴリズムは低・中間・高リスクにそれぞれ2196人、140人、481人を分類し、中間・高リスク群でLREリスクの上昇を認めた（ハザード比7.60、9.86）。EASL-SWEでも同様に層別化でき、中間-低・中間-高・高リスク群でハザード比2.99、10.83、18.87だった。60か月の予測精度（AUC）はAGA-SWE 0.770、AGA-VCTE 0.775、EASL-SWE 0.804、EASL-VCTE 0.805で、SWEとVCTEに有意差はなかった。SWEとVCTEは強い相関を示した（ρ=0.713）。
+
+<b>結論：</b>SWEに基づくリスク層別化は、MASLDにおけるLRE予測でVCTEベースのモデルと同様の性能を示した。ただし正式な同等性を示すものではない。</p>
+        <div class="art-original">原題：Shear wave elastography demonstrates similar risk stratification performance to vibration-controlled transient elastography in FIB-4-based two-step algorithms for MASLD. — <a href="https://pubmed.ncbi.nlm.nih.gov/42599911/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+      </div></div></div>
+    </li>
+
+    <li data-open="false">
+      <button class="art-toggle" data-target="a4">
+        <div class="art-head"><span class="mark">＋</span>
+          <span class="art-title">潜因性脂肪性肝疾患：肝関連死亡リスク増加と関連するやせ型表現型</span>
+        </div>
+        <div class="art-meta"><span class="journal">Gut</span><span>2026-08-14</span><span>PMID 42463421</span></div>
+        <p class="art-teaser">代謝リスク因子の記録がないやせ型脂肪性肝疾患でも、肝関連死亡リスクが有意に上昇（韓国コホートでHR 2.5）。</p>
+      </button>
+      <div class="art-detail" id="a4"><div class="art-detail-inner"><div class="art-body">
+        <h4>日本語全文訳</h4>
+        <p><b>背景：</b>潜因性脂肪性肝疾患（SLD）はいまだ定義が定まっていない。
+
+<b>目的：</b>心血管代謝リスク因子（CMRF）の記録がないやせ型SLDと操作的に定義した潜因性SLDについて、臨床的特徴と転帰を検討した。
+
+<b>方法：</b>UK BiobankのMRI-PDFFコホート（SLDはPDFF≥5%）で臨床的特徴を評価し、肝脂肪指数に基づくUKBコホートで検証、NHANES・韓国国民健康保険サービス（KNHIS）コホートを含む3つの横断的コホートで外部検証した。転帰はUKBとKNHISの2つの縦断的コホートでCox回帰により検討した。
+
+<b>結果：</b>MR-PDFF参加者30847人のうち1195人（3.4%）が非肥満SLDで、うち13.7%が潜因性SLD、86.3%がやせ型の代謝機能障害関連SLDだった。潜因性SLDは非SLD・CMRFなし群より不良な代謝・肝臓関連プロファイルを示し、線維化率も高かった。縦断解析では潜因性SLDはKNHISで肝関連死と関連していた（ハザード比2.5、95%CI 1.4-4.3）。UKBコホートでも同様の関連が見られた（ハザード比13.2、95%CI 1.9-92.4）。
+
+<b>結論：</b>操作的に定義された潜因性SLDはやせ型SLDのかなりの割合を占め、記録上のCMRFがないにもかかわらず肝障害マーカー・肝関連死亡と関連していた。</p>
+        <div class="art-original">原題：Cryptogenic steatotic liver disease: a lean phenotype associated with increased liver-related mortality. — <a href="https://pubmed.ncbi.nlm.nih.gov/42463421/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+      </div></div></div>
+    </li>
+
+  </ul>
+
+  <footer>
+    出典：PubMed（NCBI E-utilities）／収録誌：Gastroenterology, Gut, Hepatology, Journal of Hepatology, Clinical Gastroenterology and Hepatology, The American Journal of Gastroenterology, Gastrointestinal Endoscopy。要約・翻訳は生成AIによるもので、臨床判断には必ず原文をご確認ください。
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.art-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var li = btn.closest('li');
+      var isOpen = li.getAttribute('data-open') === 'true';
+      li.setAttribute('data-open', isOpen ? 'false' : 'true');
+    });
+  });
+</script>

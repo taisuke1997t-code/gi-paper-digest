@@ -29,16 +29,29 @@ PubMed / NEJM など権威ある情報源から論文を自動収集し、まず
 
 ---
 
-## 未確定・要相談事項（次回の会話で決める）
+## 確定事項（2026-08-15）
 
-- [ ] アプリの形態：スマホでブラウザから開けるWeb/PWA か、ネイティブアプリか
-- [ ] 収集対象の絞り込み：「消化器以外全科」か、興味のある特定の科（循環器・呼吸器・神経内科など）に絞るか
-- [ ] ホスティング：ローカルPC（既存のX自動化と同じ方式）か、クラウド常時稼働か
-- [ ] 1日あたり何本くらい配信するか
-- [ ] NEJM等の購読アカウントを本人が持っているか（全文を手動アップロードする運用にするかどうかに関わる）
+- **アプリ形態：Web/PWA。** スマホのブラウザから開ける形にする。
+- **収集対象：消化器内科の論文のみ。**（★当初「専門外の論文」という依頼だったが、本人に確認の上「消化器内科の論文を探してきてほしい」に変更・確定。専門外キャッチアップの構想は撤回。）
+  - 対象誌の初期案：Gastroenterology, Gut, Hepatology, Journal of Hepatology, Clinical Gastroenterology and Hepatology, The American Journal of Gastroenterology, Gastrointestinal Endoscopy（PubMed esearchで `[Journal]` 指定・直近日数でフィルタ）
+- **ホスティング：ローカルPC。** 既存のXポスト自動化（`AIの作業場/.local/run-daily-post.ps1`）と同方式。Windowsタスクスケジューラで毎日実行。
+- **NEJM等の個人購読：なし。** → 全文の自動翻訳はオープンアクセス論文のみ。購読が必要な論文はPubMedリンクの提示に留め、全文が必要な場合は本人が手動でPDFをアップロードする運用（未実装）。
 
----
+## 確認済みのアーキテクチャ（デモ済み・2026-08-15）
 
-## 現状
+1. **収集**：PubMed E-utilities（`esearch` → `efetch`、APIキー不要・無料）で対象誌の新着論文（title, abstract, journal, pubdate, PMID）を取得。認証不要、PowerShellの`Invoke-RestMethod`で十分。
+2. **要約・翻訳**：`claude -p`（ヘッドレスClaude Code、既存のX自動化と同じ呼び出し方）でアブストラクトを日本語要約（一覧用の短文）＋全文訳（詳細用）に変換。
+3. **表示**：自己完結型HTML（1ファイル、外部依存なし）を生成し、**Artifact機能で公開**（`claude.ai/code/artifact/...` の固定URL、スマホから閲覧可）。同じファイルパスで再公開すればURLは変わらず更新できる。
+   - デモ公開済み：https://claude.ai/code/artifact/7cf744ff-ecee-4c90-b857-8dcdd99cbb81 （2026-08-15時点で実際にPubMedから取得した4本を要約・翻訳したもの）
+4. **通知**：既存のLINEブロードキャスト配信を流用し、「ダイジェストを更新しました＋Artifact URL」を送る想定。
+5. **自動実行**：Windowsタスクスケジューラで毎日、`claude -p --dangerously-skip-permissions` を1回呼び出し、収集〜要約・翻訳〜Artifact更新〜LINE通知までを1セッションで完結させる（X自動化と同パターン）。
+   - Artifactを同一URLに更新し続けるには、発行済みのURLをどこかのファイル（例：`.local/artifact-url.txt`、Gitに含めない）に保存し、毎回のヘッドレス実行でそのURLを`url`パラメータとして渡す必要がある。
 
-まだ設計段階。コードは未着手。次のステップは上記の未確定事項を詰めてから実装に入る。
+## 未着手・次にやること
+
+- [ ] PubMed収集用PowerShellスクリプト（`collect-daily.ps1`）の実装
+- [ ] 重複防止の履歴ファイル設計（`元ネタ使用履歴.md`と同様の仕組みをこのプロジェクト用に用意）
+- [ ] 1日あたりの配信本数の決定（未確定）
+- [ ] Windowsタスクスケジューラへの登録
+- [ ] LINE通知の実装（既存の`.local/line_token.txt`とブロードキャストAPIを流用）
+- [ ] （将来）オープンアクセス論文の全文自動翻訳／購読誌の手動PDFアップロード運用
