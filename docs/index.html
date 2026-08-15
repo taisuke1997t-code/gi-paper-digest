@@ -526,11 +526,24 @@
     });
   }
 
+  // 表記ゆれを吸収する正規化（例：「大腸がん」で検索しても「大腸癌」がヒットするように）
+  function normalizeJa(s){
+    s = String(s || '').toLowerCase();
+    // カタカナ→ひらがな（全角）に統一。これにより「ガン」も後続の置換で拾える
+    s = s.replace(/[ァ-ヶ]/g, function(ch){
+      return String.fromCharCode(ch.charCodeAt(0) - 0x60);
+    });
+    // 「がん」の表記ゆれを「癌」に統一（大腸がん↔大腸癌、肝がん↔肝癌 など全般に対応）
+    s = s.replace(/がん/g, '癌');
+    return s;
+  }
+
   function searchText(a){
     if(a._search) return a._search;
     var plain = function(s){ return String(s || '').replace(/<[^>]+>/g,''); };
-    a._search = [a.conclusion, a.titleJa, a.titleOriginal, a.journal, plain(a.stat), plain(a.bodyJa), plain(a.impactNote)]
-      .join(' ').toLowerCase();
+    var raw = [a.conclusion, a.titleJa, a.titleOriginal, a.journal, plain(a.stat), plain(a.bodyJa), plain(a.impactNote)]
+      .join(' ');
+    a._search = normalizeJa(raw);
     return a._search;
   }
 
@@ -546,7 +559,7 @@
   }
 
   function filteredSorted(){
-    var q = searchInput.value.trim().toLowerCase();
+    var q = normalizeJa(searchInput.value.trim());
     return allArticles.slice().reverse().filter(function(a){
       if(currentFilter !== 'all' && a.type !== currentFilter) return false;
       if(q && searchText(a).indexOf(q) === -1) return false;
