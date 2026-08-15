@@ -1,7 +1,9 @@
 # このプロジェクトについて
 
-消化器内科医（本人）が、専門外（消化器内科以外）の分野の医学論文を効率よくキャッチアップするためのアプリ。
-PubMed / NEJM など権威ある情報源から論文を自動収集し、まず「要約タイトル一覧」を表示、タップすると全文を日本語訳して読める、という体験を目指す。将来的には収集〜要約〜翻訳までを自動化し、日々アップデートされる状態にする。
+消化器内科医（本人）が、消化器内科分野の医学論文を効率よくキャッチアップするためのアプリ。
+PubMed / NEJM など権威ある情報源から**インパクトファクターの高い誌・学会への影響が大きい論文**を優先して自動収集し、各論文は「タイトル」ではなく「結論」を大きく見せるサムネイル一覧で表示、タップすると全文を日本語訳して読める、という体験を目指す。将来的には収集〜要約〜翻訳までを自動化し、日々アップデートされる状態にする。
+
+（★当初は「専門外の論文をキャッチアップしたい」という依頼だったが、本人に確認の上「消化器内科の論文のみ」に方針転換・確定。詳細は下記「確定事項」参照。）
 
 `AIの作業場`（Xポスト・note発信ビジネス用のリポジトリ）とは別の独立プロジェクトとして、Desktop直下にこのフォルダを新規作成した。
 
@@ -37,21 +39,47 @@ PubMed / NEJM など権威ある情報源から論文を自動収集し、まず
 - **ホスティング：ローカルPC。** 既存のXポスト自動化（`AIの作業場/.local/run-daily-post.ps1`）と同方式。Windowsタスクスケジューラで毎日実行。
 - **NEJM等の個人購読：なし。** → 全文の自動翻訳はオープンアクセス論文のみ。購読が必要な論文はPubMedリンクの提示に留め、全文が必要な場合は本人が手動でPDFをアップロードする運用（未実装）。
 
+## 論文の選定基準（確定・2026-08-15）
+
+**単純な新着順ではなく、インパクトファクター（IF）が高い誌・学会への影響が大きい論文を優先する。**
+
+- PubMed API自体はIFを返さない。代わりに「対象誌のIFティア一覧」をスクリプト内に静的に持たせ、これに基づいて優先順位づけする。IFは年ごとに変動するため定期的な見直しが必要（目安として年1回程度）。
+- 参考ティア（2026-08-15時点、概算・要検証）：
+  - **Tier S**（総合誌・IF高）：New England Journal of Medicine（IF≈96）, The Lancet（IF≈98）, JAMA（IF≈63）
+  - **Tier A**（GI専門誌トップ）：The Lancet Gastroenterology & Hepatology（IF≈35）, Gastroenterology（IF≈29）, Journal of Hepatology（IF≈26）, Gut（IF≈23）, Nature Reviews Gastroenterology & Hepatology（IF≈45、総説誌）
+  - **Tier B**：Hepatology（IF≈12-14）, Clinical Gastroenterology and Hepatology（IF≈11）, The American Journal of Gastroenterology（IF≈10）, Gastrointestinal Endoscopy（IF≈9）, Endoscopy（IF≈10）
+  - **Tier C**：上記以外のGI関連誌
+- 収集ロジック：まずTier S・Aを検索し、該当があればそこから選ぶ。Tier S・Aで該当がない日はTier Bにフォールバック。
+- 論文タイプによる補正：PubMedの`Publication Type`が「Randomized Controlled Trial」「Meta-Analysis」「Practice Guideline」「Review」などの論文を優先し、「Letter」「Comment」「Case Report」は除外する（アブストラクトが無いことが多く、影響度も低い傾向のため）。
+- 2026-08-15のデモではTier S・Aの中から実際に5本選定：NEJM（膵臓癌フェーズ3RCT）, JAMA（アルコール性肝疾患レビュー）, Lancet Gastroenterol Hepatol（duvakitug UC フェーズ2b RCT／dupilumab好酸球性胃炎フェーズ2 RCT／イピリムマブHCC フェーズ2陰性結果）。
+
+## サムネイル・カードのデザイン仕様（確定・2026-08-15）
+
+タイトルではなく**結論を主役にする**。理由：タイトルだけでは何が分かった論文か伝わらないため。
+
+- **メインの見出し＝結論**：「〇〇には△△がおすすめ」「〇〇で■■のリスクが上昇」のような、読んで一目で要点が伝わる日本語の一文（大きく・太く表示）。
+- 結論を補強する主要な数値（例：ハザード比、寛解率など）を結論の下に1〜2行で添える。
+- **論文タイトル（原題の和訳）は結論より小さく、カッコ書きで一番下に表示**。あくまで参照用の添え書きという扱い。
+- 誌名・IFタグ・掲載日・PMIDは結論の上に小さく表示し、「なぜこの論文が選ばれたか」を一目で分かるようにする。
+- タップ（クリック）すると全文の日本語訳とPubMedへのリンクが開くアコーディオン形式。
+- 実装例：https://claude.ai/code/artifact/7cf744ff-ecee-4c90-b857-8dcdd99cbb81 のカードデザイン、ソースは `docs/demo-digest.html`
+
 ## 確認済みのアーキテクチャ（デモ済み・2026-08-15）
 
-1. **収集**：PubMed E-utilities（`esearch` → `efetch`、APIキー不要・無料）で対象誌の新着論文（title, abstract, journal, pubdate, PMID）を取得。認証不要、PowerShellの`Invoke-RestMethod`で十分。
-2. **要約・翻訳**：`claude -p`（ヘッドレスClaude Code、既存のX自動化と同じ呼び出し方）でアブストラクトを日本語要約（一覧用の短文）＋全文訳（詳細用）に変換。
+1. **収集**：PubMed E-utilities（`esearch` → `efetch`、APIキー不要・無料）で対象誌の新着論文（title, abstract, journal, pubdate, PMID, publication type）を取得。認証不要、PowerShellの`Invoke-RestMethod`で十分。上記の選定基準（IFティア＋論文タイプ）で絞り込む。
+2. **要約・翻訳**：`claude -p`（ヘッドレスClaude Code、既存のX自動化と同じ呼び出し方）でアブストラクトから「結論見出し」「補強数値」「タイトル和訳」「全文訳」を生成。
 3. **表示**：自己完結型HTML（1ファイル、外部依存なし）を生成し、**Artifact機能で公開**（`claude.ai/code/artifact/...` の固定URL、スマホから閲覧可）。同じファイルパスで再公開すればURLは変わらず更新できる。
-   - デモ公開済み：https://claude.ai/code/artifact/7cf744ff-ecee-4c90-b857-8dcdd99cbb81 （2026-08-15時点で実際にPubMedから取得した4本を要約・翻訳したもの）
+   - デモ公開済み：https://claude.ai/code/artifact/7cf744ff-ecee-4c90-b857-8dcdd99cbb81 （2026-08-15時点でNEJM/JAMA/Lancet Gastroenterol Hepatolから実際に選定・翻訳した5本、結論ファーストのカードデザイン）
 4. **通知**：既存のLINEブロードキャスト配信を流用し、「ダイジェストを更新しました＋Artifact URL」を送る想定。
-5. **自動実行**：Windowsタスクスケジューラで毎日、`claude -p --dangerously-skip-permissions` を1回呼び出し、収集〜要約・翻訳〜Artifact更新〜LINE通知までを1セッションで完結させる（X自動化と同パターン）。
+5. **自動実行**：Windowsタスクスケジューラで毎日、`claude -p --dangerously-skip-permissions` を1回呼び出し、収集〜選定〜要約・翻訳〜Artifact更新〜LINE通知までを1セッションで完結させる（X自動化と同パターン）。
    - Artifactを同一URLに更新し続けるには、発行済みのURLをどこかのファイル（例：`.local/artifact-url.txt`、Gitに含めない）に保存し、毎回のヘッドレス実行でそのURLを`url`パラメータとして渡す必要がある。
 
 ## 未着手・次にやること
 
-- [ ] PubMed収集用PowerShellスクリプト（`collect-daily.ps1`）の実装
+- [ ] PubMed収集用PowerShellスクリプト（`collect-daily.ps1`）の実装（IFティア・論文タイプによる絞り込みロジックを含む）
+- [ ] IFティア一覧の妥当性検証（現状の数値は概算・要確認）と、定期更新の仕組み
 - [ ] 重複防止の履歴ファイル設計（`元ネタ使用履歴.md`と同様の仕組みをこのプロジェクト用に用意）
-- [ ] 1日あたりの配信本数の決定（未確定）
+- [ ] 1日あたりの配信本数の決定（未確定。デモでは5本）
 - [ ] Windowsタスクスケジューラへの登録
 - [ ] LINE通知の実装（既存の`.local/line_token.txt`とブロードキャストAPIを流用）
 - [ ] （将来）オープンアクセス論文の全文自動翻訳／購読誌の手動PDFアップロード運用

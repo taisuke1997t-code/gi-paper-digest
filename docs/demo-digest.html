@@ -146,30 +146,53 @@
   }
   li[data-open="true"] .art-head .mark{ transform:rotate(45deg); }
 
-  .art-title{
-    font-family:var(--serif);
-    font-size:1.14rem;
-    font-weight:600;
-    line-height:1.5;
-    text-wrap:balance;
-  }
   .art-meta{
-    margin:0.35rem 0 0 1.5rem;
+    margin:0 0 0 1.5rem;
     font-family:var(--mono);
     font-size:0.72rem;
     color:var(--ink-faint);
     letter-spacing:0.02em;
     display:flex;
     flex-wrap:wrap;
-    gap:0 0.9rem;
+    align-items:center;
+    gap:0.3rem 0.7rem;
   }
   .art-meta .journal{ font-style:italic; color:var(--ink-muted); font-family:var(--serif); font-size:0.78rem; }
+  .art-meta .if-tag{
+    background:var(--accent-soft);
+    color:var(--accent);
+    border-radius:3px;
+    padding:0.08rem 0.4rem;
+    font-weight:600;
+  }
 
-  .art-teaser{
-    margin:0.55rem 0 0 1.5rem;
-    font-size:0.9rem;
-    line-height:1.75;
+  .art-conclusion{
+    margin:0.5rem 0 0 1.5rem;
+    font-family:var(--serif);
+    font-size:1.32rem;
+    font-weight:700;
+    line-height:1.48;
+    color:var(--ink);
+    text-wrap:balance;
+    max-width:26em;
+  }
+
+  .art-stat{
+    margin:0.5rem 0 0 1.5rem;
+    font-size:0.86rem;
+    line-height:1.7;
     color:var(--ink-muted);
+    max-width:56ch;
+    font-variant-numeric:tabular-nums;
+  }
+  .art-stat b{ color:var(--accent); font-weight:600; }
+
+  .art-title{
+    margin:0.6rem 0 0 1.5rem;
+    font-size:0.82rem;
+    line-height:1.6;
+    color:var(--ink-faint);
+    font-style:italic;
     max-width:56ch;
   }
 
@@ -237,106 +260,125 @@
     <h1>消化器内科ダイジェスト</h1>
     <div class="sub">
       <span><b>2026年8月15日</b>号</span>
-      <span>収録誌：Gastroenterology / Gut / Hepatology / Journal of Hepatology</span>
+      <span>選定：NEJM / JAMA / Lancet Gastroenterology &amp; Hepatology を優先</span>
     </div>
   </div>
 
   <p class="note">
-    <strong>これはデモです。</strong> 本日実際にPubMedへ問い合わせ、直近21日間に上記4誌へ掲載された論文から要約のある4本を取得し、その場で日本語要約・全文訳を作成しました。実運用では毎晩ローカルPCが自動でこの一覧を更新します。タイトルをタップすると全文訳が開きます。
+    <strong>これはデモです。</strong> 直近30日にPubMedへ掲載された消化器内科関連論文から、まずインパクトファクターの高い総合誌・専門誌（NEJM・JAMA・Lancet Gastroenterology &amp; Hepatologyなど）を優先して候補を絞り込み、その中から学会への影響が大きいもの（第3相RCT・大規模レビュー・新規治療の第2相試験など）5本を選び、その場で日本語要約・全文訳を作成しました。各カードは<strong>結論を先頭に大きく表示</strong>し、論文タイトルはカッコ書きで小さく添える形にしています。実運用では毎晩ローカルPCが自動でこの一覧を更新します。カードをタップすると全文訳が開きます。
   </p>
 
-  <p class="toc-label">本日の4本</p>
+  <p class="toc-label">本日の5本（インパクトファクター優先選定）</p>
 
   <ul class="articles" id="articles">
 
     <li data-open="false">
       <button class="art-toggle" data-target="a1">
-        <div class="art-head"><span class="mark">＋</span>
-          <span class="art-title">過敏性腸症候群における食物繊維補充療法：RCTのシステマティックレビュー・メタ解析</span>
-        </div>
-        <div class="art-meta"><span class="journal">Gastroenterology</span><span>2026-08-14</span><span>PMID 42600900</span></div>
-        <p class="art-teaser">IBS患者1904人・RCT30件のメタ解析。繊維全体で反応率52% vs 44%、特にサイリウムで有効性が高かった。</p>
+        <div class="art-head"><span class="mark">＋</span></div>
+        <div class="art-meta"><span class="journal">N Engl J Med</span><span class="if-tag">IF≈96</span><span>2026-07-23</span><span>PMID 42223072</span></div>
+        <div class="art-conclusion">既治療の転移性膵臓癌、Daraxonrasibが生存期間をほぼ倍に伸ばす</div>
+        <p class="art-stat">全生存期間中央値 <b>13.2か月 vs 6.6か月</b>（ハザード比0.40、P&lt;0.001）。第3相国際RCT・500人規模。</p>
+        <p class="art-title">（原題和訳：既治療の転移性膵臓癌に対するDaraxonrasibと化学療法の比較）</p>
       </button>
       <div class="art-detail" id="a1"><div class="art-detail-inner"><div class="art-body">
         <h4>日本語全文訳</h4>
-        <p><b>背景・目的：</b>食物繊維補充療法は過敏性腸症候群（IBS）に広く用いられ推奨されているが、最近のエビデンス統合は行われていなかった。本研究はランダム化比較試験（RCT）のシステマティックレビュー・メタ解析により、IBSに対する食物繊維補充療法の有効性を検討した。
+        <p><b>背景：</b>既治療の転移性膵管腺癌（mPDAC）患者に対して、現行の治療は限られた効果しか示さない。RASパスウェイの異常活性化はPDACの主要な発生要因であり、90%を超える症例で発癌性RAS変異が認められる。Daraxonrasibは、変異型・野生型RASの活性型（GTP結合状態）を標的とする経口のRAS(ON)多選択的トリコンプレックス阻害薬である。
 
-<b>方法：</b>MEDLINE、Embase、Web of Science、Cochrane Central Register of Controlled Trialsを各データベース開始から2026年4月9日まで検索した。IBS成人を対象に食物繊維補充療法と適切なプラセボ対照を比較したRCTを組み入れた。二値の臨床反応データはリスク比と95%信頼区間で要約した。本レビューはPROSPEROに事前登録された（CRD42024600758）。
+<b>方法：</b>本第3相国際非盲検ランダム化試験では、既治療のmPDAC患者をdaraxonrasib群または担当医選択の化学療法群にランダムに割り付けた。主要評価項目はRAS G12変異を有する集団における全生存期間・無増悪生存期間とした。
 
-<b>結果：</b>検索により4008件の文献が同定され、IBS患者1904人を含む30件のRCTが適格とされた。最も多かった繊維の種類は小麦ふすま（7件）、サイリウム（6件）、イヌリン型フルクタン（5件）、β-ガラクトオリゴ糖（B-GOS、2件）で、2件のRCTは複数繊維の併用投与だった。臨床反応を報告した16件のRCT（n=1293）では、繊維群で52%、対照群で44%が反応した（リスク比1.21［95%CI 1.03-1.41］、P=0.02）。特にサイリウムで有益性が高かった（リスク比1.53［95%CI 1.06-2.19］）。消化器症状全体を報告した9件のRCT（n=497）では有意差はなかったが、B-GOSのみ症状改善が見られた。
+<b>結果：</b>RAS G12変異を有する患者91.8%を含む計500人がdaraxonrasib群（248人）または化学療法群（252人）に割り付けられた。全生存期間中央値はRAS G12集団でdaraxonrasib群13.2か月・化学療法群6.6か月、全体集団でも13.2か月・6.7か月と、いずれもハザード比0.40だった（P&lt;0.001）。無増悪生存期間中央値も両群で有意差があった（ハザード比0.45・0.49、いずれもP&lt;0.001）。Grade3以上の有害事象はdaraxonrasib群61.8%・化学療法群69.6%で、治療関連有害事象による中止はdaraxonrasib群1.2%・化学療法群11.2%だった。
 
-<b>結論：</b>食物繊維補充療法、特にサイリウムはIBSにおいて臨床反応をもたらす。今後のRCTはIBSサブタイプ別にアウトカムを報告することが望まれる。</p>
-        <div class="art-original">原題：Fiber supplementation in irritable bowel syndrome: a systematic review and meta-analysis of randomized controlled trials. — <a href="https://pubmed.ncbi.nlm.nih.gov/42600900/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+<b>結論：</b>既治療のmPDAC患者において、daraxonrasibは化学療法と比較して全生存期間・無増悪生存期間を有意に延長した（Revolution Medicines社資金提供、RASolute 302試験、NCT06625320）。</p>
+        <div class="art-original">原題：Daraxonrasib or Chemotherapy in Previously Treated Metastatic Pancreatic Cancer. — <a href="https://pubmed.ncbi.nlm.nih.gov/42223072/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
       </div></div></div>
     </li>
 
     <li data-open="false">
       <button class="art-toggle" data-target="a2">
-        <div class="art-head"><span class="mark">＋</span>
-          <span class="art-title">肝再生CRISPRスクリーニングでE3リガーゼNEURL1Bが肝細胞分裂を制御することが判明</span>
-        </div>
-        <div class="art-meta"><span class="journal">Gastroenterology</span><span>2026-08-14</span><span>PMID 42600899</span></div>
-        <p class="art-teaser">生体内CRISPRiスクリーニングで、過剰な中心体を持つ肝細胞特有の紡錘極再編成機構を解明。肝再生・肝癌治療の新たな標的候補。</p>
+        <div class="art-head"><span class="mark">＋</span></div>
+        <div class="art-meta"><span class="journal">JAMA</span><span class="if-tag">IF≈63</span><span>2026-08-04</span><span>PMID 42406571</span></div>
+        <div class="art-conclusion">アルコール性肝疾患は"断酒"が治療の中心、重症例は移植も検討を</div>
+        <p class="art-stat">米国のALD関連死亡率は<b>1999年6.7人→2022年12.5人</b>（10万人あたり）に増加。断酒で肝関連死リスク0.43倍に。</p>
+        <p class="art-title">（原題和訳：アルコール関連肝疾患：レビュー）</p>
       </button>
       <div class="art-detail" id="a2"><div class="art-detail-inner"><div class="art-body">
         <h4>日本語全文訳</h4>
-        <p><b>背景・目的：</b>肝細胞の増殖は肝再生に必須である。肝細胞は過剰な中心体を有しており、多極紡錘体形成や有糸分裂の遷延を招きうる。肝細胞がこれらの課題を克服して効率的に再生する仕組みは不明であった。
+        <p><b>重要性：</b>アルコール関連肝疾患（ALD）は肝関連の罹患・死亡の最大の原因であり、欧米における肝移植の最も多い適応疾患である。米国のALD関連死亡率は1999年の10万人あたり6.7人から2022年には12.5人へ増加した。
 
-<b>方法：</b>再生中のマウス肝臓で高精度な生体内CRISPRiスクリーニングを実施し、細胞株の遺伝子必須性データと照合して肝細胞増殖に特異的な遺伝子を同定した。ノックアウトマウス、RNAシークエンシング、プロテオミクスで機序を検討した。
+<b>所見：</b>ALDは女性で1日20g超、男性で1日30g超の長期的なアルコール摂取で発症しうる。可逆性の脂肪化から、アルコール性肝炎を来す脂肪性肝炎、肝硬変・肝不全代償不全・肝細胞癌に至る線維化まで幅がある。患者の90%は無症状か非特異的症状のみ。FIB-4スコアや肝硬度測定などの非侵襲的検査で早期診断・線維化評価が可能で、線維化重症度が肝関連アウトカムの最も強い予測因子である。断酒介入（動機づけ強化療法、認知行動療法、バクロフェン・ナルトレキソンなどの薬物療法）が進行予防に推奨される。アルコール性肝硬変患者では、断酒が肝関連死亡リスク低下（調整ハザード比0.43）・全死亡リスク低下（調整ハザード比0.45）と関連していた。
 
-<b>結果：</b>あまり研究されていないE3リガーゼNEURL1Bが、肝細胞分裂に特異的に必要であることが判明した。NEURL1Bを阻害すると肝細胞が肥大・多倍体化し、肝再増殖が障害され、肝癌への抵抗性が生じた。有糸分裂開始時、肝細胞はNUMA1が組織化する複数の微小管形成中心（MTOC）を持つが、NEURL1BはMTOCに局在してこれを不安定化させ（NUMA1を基質とする）、余分なMTOCの不活化と有糸分裂の進行を促す。ヒトの単核RNAシークエンシングでも同様の役割が支持された。
-
-<b>結論：</b>肝細胞が過剰な中心体を管理する独自の機構が明らかになり、NEURL1Bは肝再生・肝癌の新たな治療標的となりうる。</p>
-        <div class="art-original">原題：Liver regeneration CRISPR screen identifies E3 ligase NEURL1B regulates hepatocyte mitosis by destabilizing microtubule organizing centers. — <a href="https://pubmed.ncbi.nlm.nih.gov/42600899/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+<b>結論と意義：</b>慢性的な大量飲酒者は非侵襲的検査でALDを評価すべきである。主要な治療目標は断酒であり、重症アルコール性肝炎・非代償性肝硬変の患者は肝移植を検討すべきである。</p>
+        <div class="art-original">原題：Alcohol-Related Liver Disease: A Review. — <a href="https://pubmed.ncbi.nlm.nih.gov/42406571/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
       </div></div></div>
     </li>
 
     <li data-open="false">
       <button class="art-toggle" data-target="a3">
-        <div class="art-head"><span class="mark">＋</span>
-          <span class="art-title">MASLDの2段階リスク層別化：シェアウェーブエラストグラフィはVCTEと同等の性能</span>
-        </div>
-        <div class="art-meta"><span class="journal">Hepatology</span><span>2026-08-14</span><span>PMID 42599911</span></div>
-        <p class="art-teaser">2817人のMASLD患者でSWEとVCTEを比較。AGA/EASLいずれのアルゴリズムでも肝関連イベント予測性能は同等だった。</p>
+        <div class="art-head"><span class="mark">＋</span></div>
+        <div class="art-meta"><span class="journal">Lancet Gastroenterol Hepatol</span><span class="if-tag">IF≈35</span><span>2026-09号</span><span>PMID 42462750</span></div>
+        <div class="art-conclusion">中等症〜重症の潰瘍性大腸炎、新規TL1A抗体duvakitugが寛解導入に有効</div>
+        <p class="art-stat">12週寛解率 <b>900mg群48% vs プラセボ20%</b>。優越性の事後確率0.99超。安全性上の懸念なし。</p>
+        <p class="art-title">（原題和訳：潰瘍性大腸炎患者におけるduvakitugの有効性と安全性（RELIEVE UCCD）：第2b相RCT）</p>
       </button>
       <div class="art-detail" id="a3"><div class="art-detail-inner"><div class="art-body">
         <h4>日本語全文訳</h4>
-        <p><b>背景・目的：</b>2段階のMASLD（代謝機能障害関連脂肪性肝疾患）リスク層別化におけるシェアウェーブエラストグラフィ（SWE）の役割は明らかでない。米国肝臓病学会（AGA）・欧州肝臓学会（EASL）のアルゴリズムでSWEと振動制御式一過性エラストグラフィ（VCTE）を比較した。
+        <p><b>背景：</b>潰瘍性大腸炎は結腸・直腸を侵す慢性炎症性疾患である。抗TL1A（TNF様サイトカイン1A）モノクローナル抗体duvakitugの、中等症〜重症の活動期潰瘍性大腸炎成人患者における有効性・安全性を検討した。
 
-<b>方法・結果：</b>同一セッションでVCTEとSWEを受けたMASLD患者2817人を対象とした。主要評価項目は肝関連イベント（LRE）。AGA-SWEアルゴリズムは低・中間・高リスクにそれぞれ2196人、140人、481人を分類し、中間・高リスク群でLREリスクの上昇を認めた（ハザード比7.60、9.86）。EASL-SWEでも同様に層別化でき、中間-低・中間-高・高リスク群でハザード比2.99、10.83、18.87だった。60か月の予測精度（AUC）はAGA-SWE 0.770、AGA-VCTE 0.775、EASL-SWE 0.804、EASL-VCTE 0.805で、SWEとVCTEに有意差はなかった。SWEとVCTEは強い相関を示した（ρ=0.713）。
+<b>方法：</b>多施設共同プラセボ対照第2b相試験。中等症〜重症の活動期潰瘍性大腸炎（従来治療・advanced therapyへの反応不良例を含む）の18〜75歳成人を、duvakitug負荷投与後450mgまたは900mgを2週毎に皮下投与する群、あるいはプラセボ群に1:1:1で割り付けた。主要評価項目は14週時点の臨床的寛解（modified Mayoスコア）。
 
-<b>結論：</b>SWEに基づくリスク層別化は、MASLDにおけるLRE予測でVCTEベースのモデルと同様の性能を示した。ただし正式な同等性を示すものではない。</p>
-        <div class="art-original">原題：Shear wave elastography demonstrates similar risk stratification performance to vibration-controlled transient elastography in FIB-4-based two-step algorithms for MASLD. — <a href="https://pubmed.ncbi.nlm.nih.gov/42599911/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+<b>結果：</b>260人をスクリーニングし137人を割り付けた（450mg群47人、900mg群46人、プラセボ群44人）。14週時点の臨床的寛解は450mg群36%、900mg群48%、プラセボ群20%だった。プラセボとの差は450mg群15ポイント、900mg群26ポイントで、事前規定の有効性判定閾値を上回る優越性の事後確率が示された（450mg群0.95、900mg群0.99超）。有害事象発現率はduvakitug群とプラセボ群で同程度で、重篤な有害事象は各群1件だった。
+
+<b>結論：</b>duvakitugは安全性上の懸念なく、中等症〜重症の活動期潰瘍性大腸炎患者において臨床的寛解の有意なエビデンスを示した（資金提供：Teva、Sanofi）。</p>
+        <div class="art-original">原題：Efficacy and safety of duvakitug in patients with ulcerative colitis (RELIEVE UCCD): a phase 2b, randomised, placebo-controlled trial. — <a href="https://pubmed.ncbi.nlm.nih.gov/42462750/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
       </div></div></div>
     </li>
 
     <li data-open="false">
       <button class="art-toggle" data-target="a4">
-        <div class="art-head"><span class="mark">＋</span>
-          <span class="art-title">潜因性脂肪性肝疾患：肝関連死亡リスク増加と関連するやせ型表現型</span>
-        </div>
-        <div class="art-meta"><span class="journal">Gut</span><span>2026-08-14</span><span>PMID 42463421</span></div>
-        <p class="art-teaser">代謝リスク因子の記録がないやせ型脂肪性肝疾患でも、肝関連死亡リスクが有意に上昇（韓国コホートでHR 2.5）。</p>
+        <div class="art-head"><span class="mark">＋</span></div>
+        <div class="art-meta"><span class="journal">Lancet Gastroenterol Hepatol</span><span class="if-tag">IF≈35</span><span>2026-08号</span><span>PMID 42341804</span></div>
+        <div class="art-conclusion">治療薬のなかった好酸球性胃炎、デュピルマブが組織学的改善で好成績</div>
+        <p class="art-stat">胃好酸球数の相対変化 <b>デュピルマブ群-50% vs プラセボ群-4%</b>（p&lt;0.0001）。第2相概念実証試験。</p>
+        <p class="art-title">（原題和訳：好酸球性胃炎患者に対するデュピルマブとプラセボの比較（DEGAS）：第2相RCT）</p>
       </button>
       <div class="art-detail" id="a4"><div class="art-detail-inner"><div class="art-body">
         <h4>日本語全文訳</h4>
-        <p><b>背景：</b>潜因性脂肪性肝疾患（SLD）はいまだ定義が定まっていない。
+        <p><b>背景：</b>好酸球性胃炎には現在承認された治療薬がなく、2型炎症が病態に関与していると考えられている。デュピルマブは2型サイトカインIL-4・IL-13を阻害し、好酸球性食道炎など2型炎症を特徴とする複数疾患で有効性が示されている。
 
-<b>目的：</b>心血管代謝リスク因子（CMRF）の記録がないやせ型SLDと操作的に定義した潜因性SLDについて、臨床的特徴と転帰を検討した。
+<b>方法：</b>DEGAS試験は12週間の二重盲検プラセボ対照期間と24週間の非盲検延長期間からなる第2相多施設共同RCT。米国11施設から、組織学的に活動性の好酸球性胃炎を有する12〜70歳の患者を、デュピルマブ（初回600mg、以後2週毎300mg）またはプラセボに1:1で割り付けた。主要評価項目は12週時点の胃好酸球数の相対変化。
 
-<b>方法：</b>UK BiobankのMRI-PDFFコホート（SLDはPDFF≥5%）で臨床的特徴を評価し、肝脂肪指数に基づくUKBコホートで検証、NHANES・韓国国民健康保険サービス（KNHIS）コホートを含む3つの横断的コホートで外部検証した。転帰はUKBとKNHISの2つの縦断的コホートでCox回帰により検討した。
+<b>結果：</b>41人が割り付けられ（デュピルマブ21人、プラセボ20人）、12週時点の相対減少はデュピルマブ群-50%、プラセボ群-4%だった（群間差-47ポイント、p&lt;0.0001）。組織学的スコア・内視鏡的評価スコアなど副次評価項目でも有意差を認めた。有害事象発現率は両群で同程度（デュピルマブ81%、プラセボ85%）で、重篤な有害事象・治療関連死亡はなかった。
 
-<b>結果：</b>MR-PDFF参加者30847人のうち1195人（3.4%）が非肥満SLDで、うち13.7%が潜因性SLD、86.3%がやせ型の代謝機能障害関連SLDだった。潜因性SLDは非SLD・CMRFなし群より不良な代謝・肝臓関連プロファイルを示し、線維化率も高かった。縦断解析では潜因性SLDはKNHISで肝関連死と関連していた（ハザード比2.5、95%CI 1.4-4.3）。UKBコホートでも同様の関連が見られた（ハザード比13.2、95%CI 1.9-92.4）。
+<b>結論：</b>本概念実証試験でデュピルマブは好酸球性胃炎の組織学的アウトカムを改善し、2型炎症の関与と治療的価値の可能性を示した（資金提供：米国国立衛生研究所、Regeneron、Sanofi）。</p>
+        <div class="art-original">原題：Dupilumab versus placebo in adults and adolescents with eosinophilic gastritis (DEGAS): a double-blind, placebo-controlled, phase 2, multicentre, randomised controlled trial. — <a href="https://pubmed.ncbi.nlm.nih.gov/42341804/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+      </div></div></div>
+    </li>
 
-<b>結論：</b>操作的に定義された潜因性SLDはやせ型SLDのかなりの割合を占め、記録上のCMRFがないにもかかわらず肝障害マーカー・肝関連死亡と関連していた。</p>
-        <div class="art-original">原題：Cryptogenic steatotic liver disease: a lean phenotype associated with increased liver-related mortality. — <a href="https://pubmed.ncbi.nlm.nih.gov/42463421/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
+    <li data-open="false">
+      <button class="art-toggle" data-target="a5">
+        <div class="art-head"><span class="mark">＋</span></div>
+        <div class="art-meta"><span class="journal">Lancet Gastroenterol Hepatol</span><span class="if-tag">IF≈35</span><span>2026-08号</span><span>PMID 42330996</span></div>
+        <div class="art-conclusion">未治療の切除不能肝細胞癌、イピリムマブ上乗せに追加ベネフィットなし</div>
+        <p class="art-stat">24週時点の奏効率 <b>3剤群30% vs 2剤群27%</b>で有意差なし。第3相への移行は見送り（陰性結果）。</p>
+        <p class="art-title">（原題和訳：進行肝細胞癌に対するアテゾリズマブ＋ベバシズマブへのイピリムマブ追加（TRIPLET-HCC）：第2-3相試験・第2相結果）</p>
+      </button>
+      <div class="art-detail" id="a5"><div class="art-detail-inner"><div class="art-body">
+        <h4>日本語全文訳</h4>
+        <p><b>背景：</b>切除不能肝細胞癌患者の予後は不良で、長期的な効果を有する治療が求められている。抗PD-L1/抗PD-1と抗VEGF/抗CTLA-4の2剤併用療法は確立された1次全身療法である。本報告はアテゾリズマブ・ベバシズマブ・イピリムマブの3剤併用療法の第2相結果（PRODIGE 81-FFCD 2101-TRIPLET-HCC試験）である。
+
+<b>方法：</b>フランス36施設の、全身療法歴のない切除不能肝細胞癌患者を、3週毎にアテゾリズマブ＋ベバシズマブ＋イピリムマブ、またはアテゾリズマブ＋ベバシズマブのみを最大2年間投与する群に1:1で割り付けた。主要評価項目は治療開始24週以内の客観的奏効。第3相移行には実験群で35人の奏効が必要だった。
+
+<b>結果：</b>229人が割り付けられ226人が投与を受けた（3剤群113人、2剤群113人）。24週時点の客観的奏効は3剤群30%、2剤群27%で、事前規定の基準を満たさず第3相への移行は見送られた。重篤な有害事象は3剤群49%・2剤群42%、治療関連死亡は3剤群6人・2剤群0人だった。
+
+<b>結論：</b>未治療の切除不能肝細胞癌において、アテゾリズマブ＋ベバシズマブへのイピリムマブ追加による明確な有益性は示されなかった。1次治療への低用量イピリムマブ追加は支持されない（資金提供：Fédération Francophone de Cancérologie Digestive）。</p>
+        <div class="art-original">原題：Addition of ipilimumab to atezolizumab plus bevacizumab in advanced hepatocellular carcinoma (PRODIGE 81-FFCD 2101-TRIPLET HCC): phase 2 results from a randomised, multicentre, open-label, phase 2-3 trial. — <a href="https://pubmed.ncbi.nlm.nih.gov/42330996/" target="_blank" rel="noopener">PubMedで原文を見る ↗</a></div>
       </div></div></div>
     </li>
 
   </ul>
 
   <footer>
-    出典：PubMed（NCBI E-utilities）／収録誌：Gastroenterology, Gut, Hepatology, Journal of Hepatology, Clinical Gastroenterology and Hepatology, The American Journal of Gastroenterology, Gastrointestinal Endoscopy。要約・翻訳は生成AIによるもので、臨床判断には必ず原文をご確認ください。
+    出典：PubMed（NCBI E-utilities）。IF（インパクトファクター）は参考値であり年度により変動する。要約・翻訳・「結論」の見出しは生成AIによるもので、臨床判断には必ず原文をご確認ください。
   </footer>
 </div>
 
