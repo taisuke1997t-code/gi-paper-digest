@@ -564,6 +564,13 @@
 </aside>
 
 <script>
+// ホーム画面から起動したアプリは、iOSがバックグラウンドから「再開」する際に
+// ネットワークへ取りに行かず、以前のページをそのまま復元することがある（bfcache）。
+// この場合は明示的に再読み込みして最新版を確実に取得する。
+window.addEventListener('pageshow', function(e){
+  if (e.persisted) { window.location.reload(); }
+});
+
 (function(){
   var todayList = document.getElementById('todayArticles');
   var todayCount = document.getElementById('todayCount');
