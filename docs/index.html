@@ -46,6 +46,7 @@
 
   *{box-sizing:border-box;}
   html{ -webkit-text-size-adjust:100%; }
+  html, body{ max-width:100%; overflow-x:hidden; }
   body{
     margin:0;
     background:var(--paper);
@@ -238,6 +239,8 @@
     flex-wrap:wrap;
     align-items:center;
     gap:0.3rem 0.7rem;
+    max-width:100%;
+    min-width:0;
   }
   .art-meta .journal{ font-style:italic; color:var(--ink-muted); font-family:var(--serif); font-size:0.78rem; }
   .art-meta .if-tag{
@@ -256,7 +259,8 @@
     line-height:1.48;
     color:var(--ink);
     text-wrap:balance;
-    max-width:26em;
+    overflow-wrap:break-word;
+    max-width:min(26em, 100%);
   }
 
   .art-stat{
@@ -264,7 +268,8 @@
     font-size:0.86rem;
     line-height:1.7;
     color:var(--ink-muted);
-    max-width:56ch;
+    max-width:100%;
+    overflow-wrap:break-word;
     font-variant-numeric:tabular-nums;
   }
   .art-stat b{ color:var(--accent); font-weight:600; }
@@ -275,7 +280,8 @@
     line-height:1.6;
     color:var(--ink-faint);
     font-style:italic;
-    max-width:56ch;
+    max-width:100%;
+    overflow-wrap:break-word;
   }
 
   .art-detail{
@@ -317,6 +323,7 @@
     color:var(--ink);
     margin:0 0 0.9rem;
     white-space:pre-line;
+    overflow-wrap:break-word;
   }
   .art-impact-note{
     font-size:0.82rem;
