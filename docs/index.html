@@ -202,38 +202,37 @@
   }
   .date-heading:first-child{ margin-top:0; }
 
+  /* 「＋」アイコンと本文を横並びのflexにする。
+     以前はアイコンを別行にして本文側だけmargin/paddingで字下げしていたが、
+     左右の余白がずれる原因になっていたため、flexで自然に揃うようにした。 */
   .art-toggle{
     all:unset;
-    display:block;
+    display:flex;
+    align-items:flex-start;
+    gap:0.6rem;
     width:100%;
+    box-sizing:border-box;
     cursor:pointer;
-    padding:1.15rem 1.15rem;
+    padding:1.15rem;
   }
   .art-toggle:focus-visible{
     outline:2px solid var(--accent);
     outline-offset:-2px;
   }
-  .art-head{
-    display:flex;
-    align-items:baseline;
-    gap:0.6rem;
-  }
-  .art-head .mark{
+  .mark{
     font-family:var(--mono);
     color:var(--accent);
     font-size:0.9rem;
+    line-height:1.65;
     flex:none;
     transition:transform 0.15s ease;
     transform-origin:center;
   }
-  li[data-open="true"] .art-head .mark{ transform:rotate(45deg); }
+  li[data-open="true"] .mark{ transform:rotate(45deg); }
 
-  /* 「＋」アイコン分の字下げは、各要素に個別のmarginを付けるのではなく
-     この1つのラッパーのpaddingだけで作る（幅の取りこぼしを防ぐため） */
   .art-summary{
-    padding-left:1.5rem;
-    box-sizing:border-box;
-    width:100%;
+    flex:1 1 auto;
+    min-width:0;
   }
 
   .art-meta{
@@ -512,7 +511,7 @@
   .load-more:hover{ border-color:var(--accent); }
 
   @media (prefers-reduced-motion: reduce){
-    .art-detail, .art-head .mark, .drawer, .drawer-backdrop{ transition:none; }
+    .art-detail, .mark, .drawer, .drawer-backdrop{ transition:none; }
   }
 </style>
 
@@ -651,7 +650,7 @@ window.addEventListener('pageshow', function(e){
     return (
       '<li data-open="false">' +
         '<button class="art-toggle" data-target="' + uid + '">' +
-          '<div class="art-head"><span class="mark">＋</span></div>' +
+          '<span class="mark">＋</span>' +
           '<div class="art-summary">' +
             '<div class="art-meta">' + metaSpans(a) + '</div>' +
             '<div class="art-conclusion">' + escapeHtml(a.conclusion) + '</div>' +
